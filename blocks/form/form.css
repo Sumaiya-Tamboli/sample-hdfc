@@ -1,3 +1,10 @@
+.otp-error-msg {
+  display: block;
+  color: #ff5f3f;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
 :root {
     --background-color-primary: #fff;
     --label-color: #666;
@@ -57,7 +64,7 @@
     --form-wizard-step-legend-padding: 10px;
     --form-wizard-step-legend-font-size: 1.1rem;
     --form-field-gap: 5px;
-    
+
     /* Card styling variables */
     --form-card-border-color: #e0e0e0;
     --form-card-border-radius: 4px;
@@ -138,7 +145,7 @@ main .form form .field-invalid .field-description {
     color: var(--form-error-color);
     padding-inline-start: 5px;
   }
-  
+
   /**
    * Required field indicator not required for checkboxes and radio buttons
    */
@@ -146,7 +153,7 @@ main .form form .field-invalid .field-description {
   .checkbox-wrapper > label::after {
       content: none;
   }
-  
+
   main .form form .checkbox-wrapper.field-invalid {
       flex-wrap: wrap;
   }
@@ -339,7 +346,7 @@ main .form form fieldset.cards.horizontal > .checkbox-wrapper {
 
 main .form form fieldset.cards.horizontal > .radio-wrapper > label,
 main .form form fieldset.cards.horizontal > .checkbox-wrapper > label {
-    min-width: -webkit-fill-available; 
+    min-width: -webkit-fill-available;
 }
 
 main .form form fieldset.cards > .radio-wrapper > input,
@@ -395,11 +402,11 @@ main .form form fieldset.cards > .checkbox-wrapper > label > img {
     main .form form fieldset.cards > .checkbox-wrapper {
         min-width: 100%;
     }
-    
+
     main .form form fieldset.cards.horizontal {
         flex-wrap: wrap;
     }
-    
+
     main .form form fieldset.cards.horizontal > .radio-wrapper,
     main .form form fieldset.cards.horizontal > .checkbox-wrapper {
         min-width: 100%;
@@ -654,12 +661,112 @@ main .form form .wizard.left .panel-wrapper{
 }
 
 main .form .form-message.success-message {
-    color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc;
+    background: none;
+    border: none;
     flex: 100%;
     grid-column: span 12;
-    padding: 10px;
+    padding: 0;
+    font-family: inherit;
+}
+
+.thankyou-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 20px;
+}
+
+.thankyou-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    margin-bottom: 16px;
+}
+
+.thankyou-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.thankyou-icon svg {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+}
+
+.thankyou-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.thankyou-label {
+    font-size: 1rem;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+.thankyou-app-number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    min-height: 1.4em;
+}
+
+.thankyou-subtext {
+    font-size: 0.875rem;
+    color: #555;
+    margin: 10px 0 0;
+}
+
+.thankyou-divider {
+    border: none;
+    border-top: 1px dashed #ccc;
+    margin: 16px 0;
+}
+
+.thankyou-summary-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 14px;
+}
+
+.thankyou-summary-item {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 20px;
+    background: #f9fafb;
+}
+
+.thankyou-summary-label {
+    font-size: 0.8rem;
+    color: #c8506b;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.thankyou-summary-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.thankyou-info-bar {
+    background: #eef2ff;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.6;
 }
 
 main .form .form-message.error-message {
@@ -738,7 +845,7 @@ main .form form .field-wrapper.col-1 {
 main .form form .wizard > .field-description {
     width: 100%;
 }
-  
+
 main .form form .checkbox-wrapper.field-invalid > .field-description {
       order: 1;
 }
@@ -778,7 +885,7 @@ main div.form-wrapper {
     :root {
         --form-field-horz-gap: 10px;
     }
-    
+
     main .form form .wizard  {
         .wizard-menu-items {
             gap: 20px;
@@ -792,3 +899,3421 @@ main div.form-wrapper {
 main .form form select[multiple] {
     height: calc(42px + 50px);
 }
+
+/* ===== Personal Loan Offer Panel ===== */
+
+main .form form .field-personal-loan-offer-panel {
+    background: #fff;
+    border-radius: 0;
+    padding: 24px 0 32px;
+    box-shadow: none;
+    border: none;
+    row-gap: 20px;
+    column-gap: 20px;
+}
+
+/* Panel heading */
+main .form form .field-personal-loan-offer-panel > legend {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #111;
+    padding-bottom: 16px;
+    margin-bottom: 0;
+}
+
+/* Inputs — tall, rounded border */
+main .form form .field-personal-loan-offer-panel input[type="text"],
+main .form form .field-personal-loan-offer-panel .date-wrapper input {
+    height: 52px;
+    border-radius: 8px;
+    border: 1.5px solid #d0d5dd;
+    font-size: 0.95rem;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+main .form form .field-personal-loan-offer-panel input[type="text"]:focus,
+main .form form .field-personal-loan-offer-panel .date-wrapper input:focus {
+    border-color: #3d52d5;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+/* Mobile number: col-4, Indian flag + +91 prefix */
+main .form form .field-mobile-number {
+    grid-column: span 4;
+}
+
+main .form form .field-mobile-number input {
+    padding-left: 82px;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3Crect width='3' height='0.667' fill='%23FF9933'/%3E%3Crect y='0.667' width='3' height='0.667' fill='%23fff'/%3E%3Crect y='1.333' width='3' height='0.667' fill='%23138808'/%3E%3Ccircle cx='1.5' cy='1' r='0.27' fill='none' stroke='%23000080' stroke-width='0.04'/%3E%3Ccircle cx='1.5' cy='1' r='0.04' fill='%23000080'/%3E%3Cline x1='1.5' y1='1' x2='1.77' y2='1' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.761' y2='1.07' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.734' y2='1.135' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.691' y2='1.191' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.635' y2='1.234' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.57' y2='1.261' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.5' y2='1.27' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.43' y2='1.261' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.365' y2='1.234' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.309' y2='1.191' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.266' y2='1.135' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.239' y2='1.07' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.23' y2='1' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.239' y2='0.93' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.266' y2='0.865' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.309' y2='0.809' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.365' y2='0.766' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.43' y2='0.739' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.5' y2='0.73' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.57' y2='0.739' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.635' y2='0.766' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.691' y2='0.809' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.734' y2='0.865' stroke='%23000080' stroke-width='0.022'/%3E%3Cline x1='1.5' y1='1' x2='1.761' y2='0.93' stroke='%23000080' stroke-width='0.022'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='20'%3E%3Ctext y='14' font-size='14' fill='%23333' font-weight='500'%3E%2B91%3C/text%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat;
+    background-position: 12px center, 42px center;
+    background-size: 24px 16px, auto;
+}
+
+/* Date of Birth: col-4 */
+main .form form .field-date-of-birth {
+    grid-column: span 4;
+}
+
+main .form form .field-date-of-birth .dob-age-error {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--form-error-color);
+}
+
+/* Source of income radio group: col-4, legend as bold heading */
+main .form form .field-personal-loan-offer-panel .radio-group-wrapper {
+    grid-column: span 4;
+}
+
+main .form form .field-personal-loan-offer-panel .radio-group-wrapper > legend {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 12px;
+    display: block;
+}
+
+main .form form .field-personal-loan-offer-panel .radio-wrapper {
+    margin-bottom: 8px;
+    align-items: center;
+    gap: 8px;
+}
+
+main .form form .field-personal-loan-offer-panel .radio-wrapper label {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 400;
+}
+
+/* Consent checkboxes — text wraps naturally */
+main .form form .field-personal-loan-offer-panel .checkbox-wrapper {
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+main .form form .field-personal-loan-offer-panel .checkbox-wrapper label {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.55;
+    flex-basis: calc(100% - 26px);
+}
+
+/* "here" word styled blue via JS-injected span */
+.here-link {
+    color: #0d5dbf;
+    cursor: pointer;
+}
+
+/* Blue links in consent labels */
+main .form form .field-personal-loan-offer-panel .checkbox-wrapper label a,
+main .form form .field-personal-loan-offer-panel .checkbox-wrapper label u,
+main .form form .field-personal-loan-offer-panel .checkbox-wrapper label span,
+main .form form .field-consent-communication label a,
+main .form form .field-consent-communication label u,
+main .form form .field-consent-marketing label a,
+main .form form .field-consent-marketing label u {
+    color: #0d5dbf !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Terms & Conditions / Privacy Policy */
+main .form form .field-terms-privacy-text p {
+    font-size: 0.9rem;
+    color: #333;
+    margin: 0;
+}
+
+main .form form .field-terms-privacy-text p a,
+main .form form .field-terms-privacy-text p u {
+    color: #0d5dbf;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Income note - amber box */
+main .form form .field-income-note {
+    background-color: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 4px;
+    padding: 10px 12px;
+}
+
+main .form form .field-income-note p {
+    font-size: 0.8rem;
+    color: #5d4037;
+    margin: 0;
+}
+
+/* View Loan Eligibility */
+main .form form .field-view-loan-eligibility button {
+    background-color: #4a62b6;
+    color: #fff;
+    border-radius: 8px;
+    padding: 14px 32px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    opacity: 1;
+    width: auto;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+main .form form .field-view-loan-eligibility button:disabled {
+    background-color: #b0b8d1;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+main .form form .field-view-loan-eligibility button:not(:disabled):hover {
+    background-color: #3a52a6;
+}
+
+/* ===== Enter OTP Panel ===== */
+
+main .form form .field-enter-otp-panel {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    row-gap: 12px;
+    column-gap: 16px;
+}
+
+/* "Enter OTP" heading */
+main .form form .field-enter-otp-panel > legend {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111;
+    padding-bottom: 2px;
+    margin-bottom: 0;
+    border: none;
+}
+
+/* Instructions: "We've sent a 6-digit OTP..." */
+main .form form .field-otp-instructions {
+    margin: 0;
+    padding: 0;
+}
+
+main .form form .field-otp-instructions p {
+    font-size: 0.88rem;
+    color: #333;
+    margin: 0;
+    line-height: 1.5;
+}
+
+main .form form .field-otp-instructions u {
+    color: #4a62b6;
+    text-decoration: underline;
+    cursor: pointer;
+    font-style: normal;
+}
+
+/* OTP input wrapper */
+main .form form .field-otp {
+    position: relative;
+    margin: 4px 0;
+}
+
+/* Hide label "OTP:" */
+main .form form .field-otp > label {
+    display: none;
+}
+
+/* OTP text input */
+main .form form .field-otp input[type="text"],
+main .form form .field-otp input[type="password"] {
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #d0d5dd;
+    font-size: 1.1rem;
+    letter-spacing: 1.8em;
+    text-indent: 0.9em;
+    padding: 0 44px 0 0;
+    width: 100%;
+    color: #333;
+    margin: 0;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+main .form form .field-otp input[type="text"]::placeholder {
+    letter-spacing: 1.5em;
+    text-indent: 0.9em;
+    color: #bbb;
+    font-size: 0.6rem;
+}
+
+main .form form .field-otp input[type="text"]:focus,
+main .form form .field-otp input[type="password"]:focus {
+    border-color: #4a62b6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(74 98 182 / 10%);
+}
+
+/* Eye toggle button */
+main .form form .field-otp .otp-eye-toggle {
+    position: absolute !important;
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+main .form form .field-otp .otp-eye-toggle svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Resend OTP button — styled like Proceed */
+main .form form .field-resend-otp button {
+    background: #1e3a8a;
+    color: #fff;
+    border-radius: 24px;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    width: auto;
+}
+
+main .form form .field-resend-otp button:hover {
+    background: #1e40af;
+}
+
+/* Resend timer row — label injected via ::before on the countdown wrapper */
+main .form form .field-resend-otp-timer {
+    display: none;
+}
+
+main .form form .field-resend-otp-in {
+    grid-column: 1 / 7;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+}
+
+main .form form .field-resend-otp-in::before {
+    content: "Resend OTP in:";
+    font-size: 0.82rem;
+    color: #444;
+    font-weight: 400;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Hide the label inside the countdown wrapper */
+main .form form .field-resend-otp-in > label {
+    display: none;
+}
+
+/* Style countdown input as plain bold text */
+main .form form .field-resend-otp-in input,
+main .form form input[name="Resend OTP in:"] {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #222;
+    pointer-events: none;
+    text-align: left;
+    border-radius: 0;
+}
+
+/* Attempts info — right side of same row */
+main .form form .field-otp-attempts-info {
+    grid-column: 7 / -1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+main .form form .field-otp-attempts-info p {
+    font-size: 0.82rem;
+    color: #888;
+    margin: 0;
+    text-align: right;
+}
+
+/* Submit OTP button */
+main .form form .field-submit-otp button {
+    background-color: rgb(165 180 252 / 30%);
+    color: #3730a3;
+    border: 1.5px solid #a5b4fc;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    transition: background-color 0.2s;
+    justify-content: space-between;
+}
+
+main .form form .field-submit-otp button::after {
+    content: "›";
+    font-size: 1.1rem;
+}
+
+main .form form .field-submit-otp button:disabled {
+    background-color: rgb(165 180 252 / 15%);
+    color: #9090c0;
+    border-color: #d0d5f0;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+main .form form .field-submit-otp button:not(:disabled):hover {
+    background-color: rgb(165 180 252 / 50%);
+}
+
+/* Important links note — centered gray text with top divider */
+main .form form .field-important-links-note {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 16px;
+    text-align: center;
+}
+
+main .form form .field-important-links-note p {
+    font-size: 0.78rem;
+    color: #777;
+    margin: 0;
+}
+
+/* Essentials for the journey — bold heading */
+main .form form .field-essentials-for-journey p {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #111;
+    margin: 0 0 16px;
+}
+
+/* Journey steps: 4-column flex row */
+main .form form .field-journey-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+/* Journey step items: icon left, text right */
+main .form form .field-step-mobile-phone,
+main .form form .field-step-pan-card,
+main .form form .field-step-date-of-birth,
+main .form form .field-step-cheque-bank-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 8px;
+}
+
+main .form form .field-step-mobile-phone p,
+main .form form .field-step-pan-card p,
+main .form form .field-step-date-of-birth p,
+main .form form .field-step-cheque-bank-details p {
+    font-size: 0.82rem;
+    color: #0d5dbf;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Step icons */
+main .form form .field-step-mobile-phone::before,
+main .form form .field-step-pan-card::before,
+main .form form .field-step-date-of-birth::before,
+main .form form .field-step-cheque-bank-details::before {
+    content: "";
+    display: block;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+main .form form .field-step-mobile-phone::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round'%3E%3Crect x='5' y='2' width='14' height='20' rx='2'/%3E%3Ccircle cx='12' cy='17' r='1' fill='%23666' stroke='none'/%3E%3C/svg%3E");
+}
+
+main .form form .field-step-pan-card::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round'%3E%3Crect x='2' y='5' width='20' height='14' rx='2'/%3E%3Cline x1='2' y1='10' x2='22' y2='10'/%3E%3Cline x1='6' y1='15' x2='9' y2='15'/%3E%3C/svg%3E");
+}
+
+main .form form .field-step-date-of-birth::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+}
+
+main .form form .field-step-cheque-bank-details::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round'%3E%3Crect x='2' y='5' width='20' height='14' rx='1'/%3E%3Cline x1='6' y1='10' x2='12' y2='10'/%3E%3Cline x1='6' y1='14' x2='10' y2='14'/%3E%3C/svg%3E");
+}
+
+/* Mobile number & DOB inside the Personal Details summary card — override input-panel styles */
+main .form form .field-personal-details .field-mobile-number,
+main .form form .field-personal-details .field-date-of-birth {
+    padding: 14px 16px 10px 14px;
+    margin: 0;
+    position: relative;
+    grid-column: span 3;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+main .form form .field-personal-details .field-mobile-number::before,
+main .form form .field-personal-details .field-date-of-birth::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5px;
+    height: 36px;
+    background-color: #c7d0f8;
+    border-radius: 2px;
+}
+
+main .form form .field-personal-details .field-mobile-number > label,
+main .form form .field-personal-details .field-date-of-birth > label {
+    font-size: 0.72rem;
+    color: #888;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+}
+
+main .form form .field-personal-details .field-mobile-number input,
+main .form form .field-personal-details .field-date-of-birth input {
+    border: none;
+    background: transparent !important;
+    background-image: none !important;
+    padding: 0 !important;
+    height: auto;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    pointer-events: none;
+    cursor: default;
+    border-radius: 0;
+    width: 100%;
+    letter-spacing: normal;
+    text-indent: 0;
+}
+
+/* ===== Customer Details Panel ===== */
+
+main .form form .field-customer-details-panel {
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    padding: 8px 0 0;
+    box-shadow: none;
+    row-gap: 14px;
+    column-gap: 24px;
+}
+
+main .form form .field-customer-details-panel > legend {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0 0 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main .form form .field-customer-details-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='2' width='18' height='20' rx='3' ry='3'/%3E%3Ccircle cx='12' cy='9' r='3'/%3E%3Cpath d='M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-customer-details-panel .text-wrapper {
+    padding: 16px 20px 14px 20px;
+    margin: 0;
+    position: relative;
+    background: #f4f6ff;
+    border-radius: 10px;
+}
+
+main .form form .field-customer-details-panel .text-wrapper::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 36px;
+    background-color: #c7d0f8;
+    border-radius: 0 2px 2px 0;
+}
+
+main .form form .field-customer-details-panel .text-wrapper > label {
+    font-size: 0.72rem;
+    color: #888;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+}
+
+main .form form .field-customer-details-panel input[type="text"] {
+    border: none;
+    background: transparent;
+    padding: 0;
+    height: auto;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    pointer-events: none;
+    cursor: default;
+    border-radius: 0;
+    width: 100%;
+}
+
+main .form form .field-customer-details-panel input[type="text"]:hover {
+    border: none;
+}
+
+/* ===== Personal Details Entry Panel ===== */
+
+main .form form .field-personal-details-panel {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-personal-details-panel > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main .form form .field-personal-details-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='7' width='20' height='14' rx='2'/%3E%3Cpath d='M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* Floating label wrappers */
+main .form form .field-personal-details-panel .drop-down-wrapper,
+main .form form .field-personal-details-panel .text-wrapper,
+main .form form .field-personal-details-panel .email-wrapper {
+    position: relative;
+    padding-top: 12px;
+    margin: 0;
+}
+
+main .form form .field-personal-details-panel .drop-down-wrapper > label,
+main .form form .field-personal-details-panel .text-wrapper > label,
+main .form form .field-personal-details-panel .email-wrapper > label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 0 4px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #888;
+    z-index: 1;
+    line-height: 1;
+    pointer-events: none;
+    margin: 0;
+}
+
+/* Select */
+main .form form .field-personal-details-panel select {
+    height: 52px !important;
+    border-radius: 8px;
+    border: 1.5px solid #d0d5dd !important;
+    padding: 0 36px 0 14px !important;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    margin: 0 !important;
+    width: 100%;
+    background-color: #fff !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 18px !important;
+    appearance: none;
+    cursor: pointer;
+}
+
+main .form form .field-personal-details-panel select:focus {
+    border-color: #3d52d5 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+/* Text & email inputs */
+main .form form .field-personal-details-panel input[type="text"],
+main .form form .field-personal-details-panel input[type="email"] {
+    height: 52px !important;
+    border-radius: 8px;
+    border: 1.5px solid #d0d5dd !important;
+    padding: 0 14px !important;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin: 0 !important;
+    width: 100%;
+    background: #fff !important;
+    cursor: text;
+}
+
+main .form form .field-personal-details-panel input[type="text"]:focus,
+main .form form .field-personal-details-panel input[type="email"]:focus {
+    border-color: #3d52d5 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+/* Email + Verify — single unified box */
+main .form form .field-personal-details-panel .field-email-id {
+    grid-column: span 12 !important;
+    padding-top: 0 !important;
+    display: flex !important;
+    align-items: stretch;
+    border: 1.5px solid #d0d5dd;
+    border-radius: 8px;
+    background: #fff;
+    position: relative;
+    margin: 0;
+}
+
+main .form form .field-personal-details-panel .field-email-id > label {
+    top: 0 !important;
+    left: 14px !important;
+    transform: translateY(-50%) !important;
+    z-index: 2;
+}
+
+main .form form .field-personal-details-panel .field-email-id input[type="email"] {
+    border: none !important;
+    border-radius: 0 !important;
+    height: 52px !important;
+    flex: 1;
+    padding: 0 14px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+main .form form .field-personal-details-panel .field-email-id input[type="email"]:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+main .form form .field-personal-details-panel .field-email-id > button {
+    border: none !important;
+    border-left: 1.5px solid #d0d5dd !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #3d52d5 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    padding: 0 20px !important;
+    height: 52px !important;
+    width: auto !important;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: none !important;
+    align-self: center;
+    margin: 0 !important;
+}
+
+main .form form .field-personal-details-panel .field-email-id > button:hover {
+    background: #f0f4ff !important;
+}
+
+main .form form .field-personal-details-panel .field-verify-email-button {
+    display: none !important;
+}
+
+/* Email suggestion chips */
+main .form form .field-personal-details-panel .field-email-suggestions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    border: none;
+    padding: 0;
+    grid-column: span 12;
+    margin: 0;
+}
+
+main .form form .field-personal-details-panel .field-email-suggestions > legend {
+    display: none;
+}
+
+main .form form .field-personal-details-panel .field-email-suggestions .checkbox-wrapper {
+    display: inline-flex;
+    position: relative;
+    margin: 0;
+    gap: 0;
+}
+
+main .form form .field-personal-details-panel .field-email-suggestions input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+main .form form .field-personal-details-panel .field-email-suggestions label {
+    display: inline-block;
+    padding: 5px 14px;
+    border: 1px solid #a5b4fc;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    color: #4a62b6;
+    cursor: pointer;
+    background: #fff;
+    white-space: nowrap;
+    margin: 0;
+    font-weight: 400;
+    flex-basis: unset;
+    transition: background 0.15s;
+}
+
+main .form form .field-personal-details-panel .field-email-suggestions label:hover {
+    background: #eef2ff;
+}
+
+/* ── Address Details Panel ──────────────────────────────── */
+main .form form .field-address-details {
+    background: #eef0ff;
+    border: 1px solid #dae0f5;
+    border-radius: 12px;
+    padding: 0 24px 24px;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 5%);
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-address-details > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef0ff;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: none;
+}
+
+main .form form .field-address-details > legend::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* Address display block */
+main .form form .field-address-details .field-aadhaar-address-display {
+    border-left: 3px solid #3d52d5;
+    padding: 6px 14px;
+    margin: 0;
+    background: transparent;
+    grid-column: span 12;
+}
+
+main .form form .field-address-details .field-aadhaar-address-display p {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 0.85rem;
+    color: #5a6473;
+}
+
+main .form form .field-address-details .field-aadhaar-address-display b {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-top: 2px;
+}
+
+/* Aadhaar address type radio group */
+main .form form .field-address-details .field-aadhaar-address-type {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    grid-column: span 12;
+}
+
+main .form form .field-address-details .field-aadhaar-address-type > legend {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+    display: block;
+    width: 100%;
+    padding: 0 0 10px;
+    margin: 0;
+    background: transparent;
+    border: none;
+}
+
+main .form form .field-address-details .field-aadhaar-address-type .radio-wrapper {
+    display: inline-flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 24px 0 0 !important;
+}
+
+main .form form .field-address-details .field-aadhaar-address-type .radio-wrapper label {
+    flex-basis: auto !important;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    margin: 0 !important;
+    white-space: nowrap;
+}
+
+/* Custom radio buttons */
+main .form form .field-address-details input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    aspect-ratio: 1 / 1;
+    border: 2px solid #c5cdd8;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    position: relative !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex: none !important;
+    flex-shrink: 0;
+    align-self: center;
+    box-sizing: border-box !important;
+}
+
+main .form form .field-address-details input[type="radio"]:checked {
+    border-color: #3d52d5;
+    background: #fff;
+}
+
+main .form form .field-address-details input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3d52d5;
+}
+
+main .form form .field-personal-details-panel .field-email-suggestions input[type="checkbox"]:checked + label {
+    background: #eef2ff;
+    border-color: #3d52d5;
+    font-weight: 600;
+}
+
+/* ===== Full Name (As per PAN) Panel ===== */
+
+main .form form .field-full-name-as-per-pan {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-full-name-as-per-pan > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main .form form .field-full-name-as-per-pan > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='2' width='18' height='20' rx='3' ry='3'/%3E%3Ccircle cx='12' cy='9' r='3'/%3E%3Cpath d='M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-full-name-as-per-pan > legend::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='16' x2='12' y2='12'/%3E%3Cline x1='12' y1='8' x2='12.01' y2='8'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* Floating label inputs */
+main .form form .field-full-name-as-per-pan .text-wrapper {
+    position: relative;
+    padding-top: 12px;
+    margin: 0;
+}
+
+main .form form .field-full-name-as-per-pan .text-wrapper > label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 0 4px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #888;
+    z-index: 1;
+    line-height: 1;
+    pointer-events: none;
+    margin: 0;
+}
+
+main .form form .field-full-name-as-per-pan input[type="text"] {
+    height: 52px !important;
+    border-radius: 8px;
+    border: 1.5px solid #d0d5dd !important;
+    padding: 0 14px !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0 !important;
+    width: 100%;
+    background: #fff !important;
+    pointer-events: auto;
+    cursor: text;
+}
+
+main .form form .field-full-name-as-per-pan input[type="text"]:focus {
+    border-color: #3d52d5 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+main .form form .field-full-name-as-per-pan input[type="text"]:hover {
+    border-color: #9ca3af !important;
+}
+
+main .form form .field-full-name-as-per-pan .field-description {
+    font-size: 0.78rem;
+    color: #9ca3af;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* ===== Summary Panels (Loan Details & Personal Details) ===== */
+
+main .form form .field-loan-details,
+main .form form .field-personal-details {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 0 20px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 24px;
+}
+
+main .form form .field-loan-details > legend,
+main .form form .field-personal-details > legend {
+    width: 100%;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main .form form .field-loan-details > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-personal-details > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='2' width='18' height='20' rx='3' ry='3'/%3E%3Ccircle cx='12' cy='9' r='3'/%3E%3Cpath d='M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-loan-details > legend::after,
+main .form form .field-personal-details > legend::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.25s ease;
+}
+
+/* Collapsed state — hide children, flip arrow to down */
+main .form form .field-loan-details.collapsed,
+main .form form .field-personal-details.collapsed {
+    padding-bottom: 0;
+    row-gap: 0;
+}
+
+main .form form .field-loan-details.collapsed > *:not(legend),
+main .form form .field-personal-details.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-loan-details.collapsed > legend::after,
+main .form form .field-personal-details.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* text-wrapper & date-wrapper: short accent line via ::before */
+main .form form .field-loan-details .text-wrapper,
+main .form form .field-loan-details .date-wrapper,
+main .form form .field-personal-details .text-wrapper,
+main .form form .field-personal-details .date-wrapper {
+    padding: 14px 16px 10px 14px;
+    margin: 0;
+    position: relative;
+}
+
+main .form form .field-loan-details .text-wrapper::before,
+main .form form .field-loan-details .date-wrapper::before,
+main .form form .field-personal-details .text-wrapper::before,
+main .form form .field-personal-details .date-wrapper::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5px;
+    height: 36px;
+    background-color: #c7d0f8;
+    border-radius: 2px;
+}
+
+main .form form .field-loan-details .text-wrapper > label,
+main .form form .field-loan-details .date-wrapper > label,
+main .form form .field-personal-details .text-wrapper > label,
+main .form form .field-personal-details .date-wrapper > label {
+    font-size: 0.72rem;
+    color: #888;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+}
+
+main .form form .field-loan-details input[type="text"],
+main .form form .field-personal-details input[type="text"] {
+    border: none;
+    background: transparent;
+    padding: 0;
+    height: auto;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    pointer-events: none;
+    cursor: default;
+    border-radius: 0;
+    width: 100%;
+}
+
+main .form form .field-loan-details input[type="text"]:hover,
+main .form form .field-personal-details input[type="text"]:hover {
+    border: none;
+}
+
+/* button-wrapper: ::before used for label text, accent line via box-shadow */
+main .form form .field-loan-details .button-wrapper {
+    padding: 14px 16px 10px 14px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: inset 2.5px 0 0 #c7d0f8;
+}
+
+main .form form .field-loan-details .button-wrapper::before {
+    content: "Schedule of Charges";
+    font-size: 0.72rem;
+    color: #888;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+}
+
+main .form form .field-loan-details .button-wrapper button {
+    background: transparent;
+    border: none;
+    color: transparent;
+    font-size: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+}
+
+main .form form .field-loan-details .button-wrapper button::after {
+    display: none;
+}
+
+main .form form .field-loan-details .button-wrapper .soc-value {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* Submit button moved outside Personal Details panel */
+main .form form .field-personal-details + .button-wrapper {
+    margin-top: 20px;
+    grid-column: span 12;
+}
+
+main .form form .field-personal-details + .button-wrapper button {
+    background: #1e3a8a;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: auto !important;
+    transition: background 0.2s;
+}
+
+main .form form .field-personal-details + .button-wrapper button::after {
+    content: "›";
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+main .form form .field-personal-details + .button-wrapper button:hover {
+    background: #1e40af;
+}
+
+main .form form .field-personal-details + .button-wrapper button:disabled {
+    background: #b0b8d1;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* ===== Loan Application Summary ===== */
+
+main .form form .field-loan-application-summary {
+    background: #fff !important;
+    border: 1px solid #dde2ec !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    box-shadow: 0 2px 12px rgb(0 0 0 / 8%) !important;
+    overflow: hidden;
+    row-gap: 8px;
+    column-gap: 16px;
+    grid-column: span 12;
+}
+
+main .form form .field-loan-application-summary > legend {
+    display: none;
+}
+
+/* Loan Application Number: circular icon on the left */
+main .form form .field-loan-application-number {
+    position: relative;
+    padding-left: 68px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+}
+
+main .form form .field-loan-application-number::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: #eef2ff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='2' width='16' height='20' rx='2'/%3E%3Cline x1='8' y1='7' x2='16' y2='7'/%3E%3Cline x1='8' y1='11' x2='16' y2='11'/%3E%3Cline x1='8' y1='15' x2='12' y2='15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 26px 26px;
+}
+
+main .form form .field-loan-application-number > label {
+    font-size: 0.78rem;
+    color: #666;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Large bold application number */
+main .form form .field-loan-application-number input[type="text"] {
+    border: none;
+    background: transparent;
+    padding: 0;
+    height: auto;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+    pointer-events: none;
+    cursor: default;
+    border-radius: 0;
+    width: 100%;
+    letter-spacing: 0.5px;
+}
+
+main .form form .field-loan-application-number input[type="text"]:hover {
+    border: none;
+}
+
+
+/* Hide the duplicate value field */
+main .form form .field-loan-application-number-value {
+    display: none;
+}
+
+/* Contact note text */
+main .form form .field-contact-note {
+    padding: 4px 0 0;
+    margin: 0;
+}
+
+main .form form .field-contact-note p {
+    color: #555;
+    font-size: 0.88rem;
+    margin: 0;
+}
+
+/* Xpress Personal Loan Summary inner panel */
+main .form form .field-xpress-personal-loan-summary-panel {
+    border: none;
+    border-top: 1.5px dashed #d0d5e8;
+    padding: 14px 0 8px;
+    margin: 4px 0 0;
+    row-gap: 8px;
+    column-gap: 0;
+}
+
+main .form form .field-xpress-personal-loan-summary-panel > legend {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    padding: 0 0 8px;
+    margin-bottom: 0;
+    border: none;
+}
+
+/* Loan Amount field — left accent line */
+main .form form .field-xpress-personal-loan-summary-panel .text-wrapper {
+    position: relative;
+    padding: 10px 12px 8px 14px;
+    margin: 0;
+}
+
+main .form form .field-xpress-personal-loan-summary-panel .text-wrapper::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5px;
+    height: 36px;
+    background-color: #c7d0f8;
+    border-radius: 2px;
+}
+
+main .form form .field-xpress-personal-loan-summary-panel .text-wrapper > label {
+    font-size: 0.72rem;
+    color: #888;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+}
+
+main .form form .field-xpress-personal-loan-summary-panel input[type="text"] {
+    border: none;
+    background: transparent;
+    padding: 0;
+    height: auto;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    pointer-events: none;
+    cursor: default;
+    border-radius: 0;
+    width: 100%;
+}
+
+main .form form .field-xpress-personal-loan-summary-panel input[type="text"]:hover {
+    border: none;
+}
+
+/* Disbursal note — light blue info box */
+main .form form .field-disbursal-note {
+    background: #eef2ff;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 16px 0 0;
+}
+
+main .form form .field-disbursal-note p {
+    color: #3d52d5;
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Easy Loan Management panel — white card, blue legend header */
+main .form form .field-easy-loan-management-panel {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0;
+    margin: 20px 0 0;
+    row-gap: 0;
+    column-gap: 0;
+}
+
+/* Blue header row */
+main .form form .field-easy-loan-management-panel > legend {
+    width: 100%;
+    background: #eef2ff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    padding: 14px 20px;
+    border: none;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Download icon in a rounded box */
+main .form form .field-easy-loan-management-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background-color: #dde6ff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v13'/%3E%3Cpath d='M8 13l4 4 4-4'/%3E%3Cpath d='M4 19h16'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 17px 17px;
+}
+
+/* Download app link row — white bg, bold text, arrow on right */
+main .form form .field-download-app-link-text {
+    padding: 16px 20px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #fff;
+}
+
+main .form form .field-download-app-link-text p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+main .form form .field-download-app-link-text::after {
+    content: "›";
+    font-size: 1.5rem;
+    color: #3d52d5;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+/* More services text */
+main .form form .field-more-services-text {
+    margin: 16px 0 0;
+    padding: 0;
+}
+
+main .form form .field-more-services-text p {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+}
+
+/* ===== Loan Offer Declared Income Panel ===== */
+
+main .form form .field-loan-offer-declared-income {
+    border: none;
+    padding: 0;
+    row-gap: 20px;
+    column-gap: 20px;
+}
+
+main .form form .field-loan-offer-declared-income > legend {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111;
+    border: none;
+    padding: 0 0 4px;
+    margin-bottom: 0;
+}
+
+/* Blue banner — "You can get a loan up to ₹15,00,000!" */
+main .form form .field-loan-offer-banner-text {
+    background: #e8f4fd;
+    border-radius: 12px;
+    padding: 16px 20px 16px 72px;
+    position: relative;
+    margin: 0;
+    grid-column: span 12;
+}
+
+main .form form .field-loan-offer-banner-text::before {
+    content: "💰";
+    font-size: 2rem;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+main .form form .field-loan-offer-banner-text p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+/* ===== Left section — Loan Amount & Tenure ===== */
+
+main .form form .field-loan-amount-tenure-section {
+    border: none;
+    padding: 0;
+    row-gap: 4px;
+    column-gap: 16px;
+    align-content: start;
+}
+
+main .form form .field-loan-amount-tenure-section > legend {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111;
+    border: none;
+    padding: 0 0 12px;
+    margin-bottom: 0;
+}
+
+/* Loan amount & tenure — label + value box inline */
+main .form form .field-loan-amount-inr,
+main .form form .field-loan-tenure-months {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 8px 0 0;
+}
+
+main .form form .field-loan-amount-inr > label,
+main .form form .field-loan-tenure-months > label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    white-space: nowrap;
+}
+
+main .form form .field-loan-amount-inr input,
+main .form form .field-loan-tenure-months input {
+    width: 140px;
+    height: 36px;
+    border: 1.5px solid #d0d5dd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: center;
+    padding: 0 10px;
+    background: #fff;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+/* Hide original "Range: X to Y" note — replaced by slider labels */
+main .form form .field-loan-amount-slider-note,
+main .form form .field-loan-tenure-slider-note {
+    display: none;
+}
+
+/* Formatted value display box */
+main .form form .loan-amount-display {
+    width: 140px;
+    height: 36px;
+    border: 1.5px solid #d0d5dd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: center;
+    padding: 0 8px;
+    background: #fff;
+    flex-shrink: 0;
+    margin: 0;
+    cursor: default;
+}
+
+/* Range slider wrapper */
+main .form form .loan-range-slider {
+    grid-column: span 12;
+    margin: 4px 0 8px;
+    padding: 0;
+}
+
+main .form form .loan-range-slider input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #f97316 var(--range-pct, 100%), #e0e0e0 var(--range-pct, 100%));
+    outline: none;
+    margin: 0;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+main .form form .loan-range-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #1e3a8a;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+    cursor: pointer;
+}
+
+main .form form .loan-range-slider input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #1e3a8a;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+    cursor: pointer;
+}
+
+main .form form .loan-range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 0 0;
+}
+
+main .form form .loan-range-labels span {
+    font-size: 0.7rem;
+    color: #888;
+}
+
+/* Proceed button */
+main .form form .field-proceed-button button {
+    background: #1e3a8a;
+    color: #fff;
+    border-radius: 24px;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    width: auto;
+}
+
+main .form form .field-proceed-button button::after {
+    content: "›";
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+main .form form .field-proceed-button button:hover {
+    background: #1e40af;
+}
+
+/* ===== Right section — XPRESS Loan Summary ===== */
+
+main .form form .field-xpress-personal-loan-summary {
+    background: #fef9ec;
+    border-radius: 14px;
+    padding: 42px 20px 20px;
+    border: none;
+    position: relative;
+    row-gap: 0;
+    column-gap: 0;
+    align-content: start;
+}
+
+main .form form .field-xpress-personal-loan-summary > legend {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    right: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #555;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    float: none;
+}
+
+/* Large loan amount */
+main .form form .field-approved-loan-amount {
+    margin: 0 0 14px;
+    padding: 0;
+    grid-column: span 12;
+}
+
+main .form form .field-approved-loan-amount p {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #111;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Divider below amount */
+main .form form .field-approved-loan-amount::after {
+    content: "";
+    display: block;
+    border-top: 1.5px dashed #d4c8a0;
+    margin-top: 14px;
+}
+
+/* EMI and Rate side-by-side */
+main .form form .field-emi-amount,
+main .form form .field-rate-of-interest {
+    padding: 10px 12px 10px 14px;
+    margin: 8px 0 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+main .form form .field-emi-amount::before,
+main .form form .field-rate-of-interest::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 32px;
+    background: #f4c06a;
+    border-radius: 2px;
+}
+
+main .form form .field-emi-amount label,
+main .form form .field-rate-of-interest label {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #666;
+    margin: 0;
+    display: block;
+}
+
+main .form form .field-emi-amount p,
+main .form form .field-rate-of-interest p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111;
+    margin: 0;
+}
+
+/* Taxes */
+main .form form .field-taxes-amount {
+    padding: 10px 12px 10px 14px;
+    margin: 8px 0 0;
+    position: relative;
+    grid-column: span 12;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+main .form form .field-taxes-amount::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 32px;
+    background: #f4c06a;
+    border-radius: 2px;
+}
+
+main .form form .field-taxes-amount label {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #666;
+    margin: 0;
+    display: block;
+}
+
+main .form form .field-taxes-amount p {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+}
+
+/* Processing Fee row — injected dynamically next to Taxes */
+main .form form .field-processing-fee-display {
+    padding: 10px 12px 10px 14px;
+    margin: 8px 0 0;
+    position: relative;
+    grid-column: span 12;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+main .form form .field-processing-fee-display::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 32px;
+    background: #f4c06a;
+    border-radius: 2px;
+}
+
+main .form form .field-processing-fee-display label {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #666;
+    margin: 0;
+    display: block;
+}
+
+main .form form .field-processing-fee-display p {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+}
+
+/* Orange disclaimer box */
+main .form form .field-principal-offer-note {
+    background: #f97316;
+    border-radius: 10px;
+    padding: 12px 14px 12px 38px;
+    margin: 16px 0 0;
+    position: relative;
+    grid-column: span 12;
+}
+
+main .form form .field-principal-offer-note::before {
+    content: "ℹ";
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1;
+}
+
+main .form form .field-principal-offer-note p {
+    font-size: 0.78rem;
+    color: #fff;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Continue button — same style as Proceed */
+main .form form .field-continue button,
+main .form form .field-continue-button button,
+main .form form .wizard-button-next button {
+    background: #1e3a8a;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    width: auto;
+    transition: background 0.2s;
+}
+
+main .form form .field-continue button::after,
+main .form form .field-continue-button button::after,
+main .form form .wizard-button-next button::after {
+    content: "›";
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+main .form form .field-continue button:hover,
+main .form form .field-continue-button button:hover,
+main .form form .wizard-button-next button:hover {
+    background: #1e40af;
+}
+
+main .form form .field-continue button:disabled,
+main .form form .field-continue-button button:disabled,
+main .form form .wizard-button-next button:disabled {
+    background: #b0b8d1;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* Confirm (submit) button — same style as Proceed */
+main .form form .field-confirm-button {
+    margin-top: 20px;
+    grid-column: span 12;
+}
+
+main .form form .field-confirm-button button {
+    background: #1e3a8a;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: auto !important;
+    transition: background 0.2s;
+}
+
+main .form form .field-confirm-button button::after {
+    content: "›";
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+main .form form .field-confirm-button button:hover {
+    background: #1e40af;
+}
+
+main .form form .field-confirm-button button:disabled {
+    background: #b0b8d1;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* ── Income Details Panel ───────────────────────────────── */
+main .form form .field-income-details-panel {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-income-details-panel > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+main .form form .field-income-details-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3h12'/%3E%3Cpath d='M6 8h12'/%3E%3Cpath d='m6 13 8.5 8'/%3E%3Cpath d='M6 13h3'/%3E%3Cpath d='M9 13c6.667 0 6.667-10 0-10'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-income-details-panel > legend::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.25s ease;
+}
+
+main .form form .field-income-details-panel.collapsed {
+    padding-bottom: 0;
+    row-gap: 0;
+}
+
+main .form form .field-income-details-panel.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-income-details-panel.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* Floating labels */
+main .form form .field-income-details-panel .number-wrapper {
+    position: relative;
+    padding-top: 12px;
+    margin: 0;
+}
+
+main .form form .field-income-details-panel .number-wrapper > label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 0 4px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #888;
+    z-index: 1;
+    line-height: 1;
+    pointer-events: none;
+    margin: 0;
+}
+
+/* Number input */
+main .form form .field-income-details-panel input[type="number"] {
+    height: 52px !important;
+    border-radius: 8px;
+    border: 1.5px solid #d0d5dd !important;
+    padding: 0 14px !important;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    margin: 0 !important;
+    width: 100%;
+    background: #fff !important;
+}
+
+main .form form .field-income-details-panel input[type="number"]:focus {
+    border-color: #3d52d5 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+/* ── Reference Details Panel ────────────────────────────── */
+main .form form .field-reference-details {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-reference-details > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+main .form form .field-reference-details > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-reference-details > legend::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.25s ease;
+}
+
+main .form form .field-reference-details.collapsed {
+    padding-bottom: 0;
+    row-gap: 0;
+}
+
+main .form form .field-reference-details.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-reference-details.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* Display-field style */
+main .form form .field-reference-details .text-wrapper {
+    padding: 14px 16px 10px 14px;
+    margin: 0;
+    align-self: start;
+    box-shadow: inset 2.5px 0 0 #c7d0f8;
+}
+
+main .form form .field-reference-details .text-wrapper > label {
+    font-size: 0.78rem;
+    color: #666;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+}
+
+main .form form .field-reference-details input[type="text"] {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    height: auto !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 !important;
+    border-radius: 0;
+    width: 100%;
+    box-shadow: none !important;
+}
+
+main .form form .field-reference-details input[type="text"]:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+/* ── Salary Account Details Panel ───────────────────────── */
+main .form form .field-salary-account-details {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-salary-account-details > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+main .form form .field-salary-account-details > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='22' x2='21' y2='22'/%3E%3Cline x1='6' y1='18' x2='6' y2='11'/%3E%3Cline x1='10' y1='18' x2='10' y2='11'/%3E%3Cline x1='14' y1='18' x2='14' y2='11'/%3E%3Cline x1='18' y1='18' x2='18' y2='11'/%3E%3Cpolygon points='12 2 20 7 4 7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-salary-account-details > legend::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.25s ease;
+}
+
+main .form form .field-salary-account-details.collapsed {
+    padding-bottom: 0;
+    row-gap: 0;
+}
+
+main .form form .field-salary-account-details.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-salary-account-details.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* Display-field style: left accent, label above value */
+main .form form .field-salary-account-details .text-wrapper {
+    padding: 14px 16px 10px 14px;
+    margin: 0;
+    align-self: start;
+    box-shadow: inset 2.5px 0 0 #c7d0f8;
+}
+
+main .form form .field-salary-account-details .text-wrapper > label {
+    font-size: 0.78rem;
+    color: #666;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+    position: static;
+    transform: none;
+    background: transparent;
+    padding: 0;
+    pointer-events: auto;
+}
+
+main .form form .field-salary-account-details input[type="text"] {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    height: auto !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 !important;
+    border-radius: 0;
+    width: 100%;
+    box-shadow: none !important;
+}
+
+main .form form .field-salary-account-details input[type="text"]:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+/* ── Office Address Panel ────────────────────────────────── */
+main .form form .field-office-address-panel {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-office-address-panel > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+main .form form .field-office-address-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpolyline points='9 22 9 12 15 12 15 22'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-office-address-panel > legend::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.25s ease;
+}
+
+main .form form .field-office-address-panel.collapsed {
+    padding-bottom: 0;
+    row-gap: 0;
+}
+
+main .form form .field-office-address-panel.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-office-address-panel.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* Display-field style */
+main .form form .field-office-address-panel .text-wrapper {
+    padding: 14px 16px 10px 14px;
+    margin: 0;
+    align-self: start;
+    box-shadow: inset 2.5px 0 0 #c7d0f8;
+}
+
+main .form form .field-office-address-panel .text-wrapper > label {
+    font-size: 0.78rem;
+    color: #666;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+}
+
+main .form form .field-office-address-panel input[type="text"] {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    height: auto !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 !important;
+    border-radius: 0;
+    width: 100%;
+    box-shadow: none !important;
+}
+
+main .form form .field-office-address-panel input[type="text"]:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+/* ── Income Verification Panel ──────────────────────────── */
+main .form form .field-income-verification-panel {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 24px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+}
+
+main .form form .field-income-verification-panel > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main .form form .field-income-verification-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpolyline points='9 12 11 14 15 10'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* Radio group: flex card row */
+main .form form .field-income-verification-method {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 16px 0 0 !important;
+    grid-column: span 12 !important;
+    background: transparent;
+    flex-wrap: wrap;
+}
+
+main .form form .field-income-verification-method > legend,
+main .form form .field-income-verification-method .field-description {
+    display: none !important;
+}
+
+/* Each radio-wrapper → card */
+main .form form .field-income-verification-method .radio-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    flex: 1;
+    min-width: 160px;
+    border: 1.5px solid #e0e6f0 !important;
+    border-radius: 10px;
+    padding: 16px !important;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    gap: 0 !important;
+    margin: 0 !important;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+main .form form .field-income-verification-method .radio-wrapper.iv-checked {
+    border-color: #3d52d5 !important;
+    box-shadow: 0 0 0 1px #3d52d5;
+}
+
+/* Card header row: radio + label inline */
+main .form form .field-income-verification-method .iv-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+/* Custom radio */
+main .form form .field-income-verification-method input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    border: 2px solid #c5cdd8;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    position: relative;
+    margin: 0 !important;
+    flex: none !important;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+main .form form .field-income-verification-method input[type="radio"]:checked {
+    border-color: #3d52d5;
+    background: #fff;
+}
+
+main .form form .field-income-verification-method input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #3d52d5;
+}
+
+/* Card label */
+main .form form .field-income-verification-method .radio-wrapper label {
+    flex-basis: auto !important;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    cursor: pointer;
+    margin: 0 !important;
+    line-height: 1.3;
+}
+
+/* Card description */
+main .form form .field-income-verification-method .iv-card-desc {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+    padding-left: 26px;
+}
+
+/* Recommended badge */
+main .form form .field-income-verification-method .iv-recommended {
+    display: block;
+    background: #16a34a;
+    color: #fff;
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 5px 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    letter-spacing: 0.3px;
+}
+
+main .form form .field-income-verification-method .radio-wrapper:has(.iv-recommended) {
+    padding-bottom: 36px;
+}
+
+/* ── Bank Selector Panel ────────────────────────────────── */
+main .form form .field-loan-type-selection {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 24px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+}
+
+main .form form .field-loan-type-selection > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+main .form form .field-loan-type-selection > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='22' x2='21' y2='22'/%3E%3Cline x1='6' y1='18' x2='6' y2='11'/%3E%3Cline x1='10' y1='18' x2='10' y2='11'/%3E%3Cline x1='14' y1='18' x2='14' y2='11'/%3E%3Cline x1='18' y1='18' x2='18' y2='11'/%3E%3Cpolygon points='12 2 20 7 4 7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* Picker layout */
+main .form form .field-loan-type-selection .bank-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 20px;
+    flex-wrap: nowrap;
+}
+
+main .form form .field-loan-type-selection .bank-cards-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    flex-wrap: nowrap;
+    flex: 1;
+    overflow-x: auto;
+}
+
+/* Bank card */
+main .form form .field-loan-type-selection .bank-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 6px 4px 4px;
+    cursor: pointer;
+    border-radius: 10px;
+    min-width: 58px;
+    width: auto !important;
+    position: relative;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+main .form form .field-loan-type-selection .bank-card:hover {
+    background: #f0f4ff;
+}
+
+main .form form .field-loan-type-selection .bank-card.selected {
+    background: #f0f4ff;
+}
+
+/* Icon wrapper */
+main .form form .field-loan-type-selection .bank-icon-wrap {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    border: 1.5px solid #e0e0e0;
+    overflow: visible;
+    flex-shrink: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main .form form .field-loan-type-selection .bank-icon-wrap svg {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+main .form form .field-loan-type-selection .bank-card.selected .bank-icon-wrap {
+    border-color: #3d52d5;
+    box-shadow: 0 0 0 1px #3d52d5;
+}
+
+/* Checkmark badge below icon */
+main .form form .field-loan-type-selection .bank-card.selected .bank-icon-wrap::after {
+    content: "✓";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: #3d52d5;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    z-index: 2;
+    line-height: 1;
+}
+
+main .form form .field-loan-type-selection .bank-card-name {
+    font-size: 0.72rem;
+    color: #555;
+    text-align: center;
+    line-height: 1.3;
+    max-width: 66px;
+    margin-top: 6px;
+}
+
+main .form form .field-loan-type-selection .bank-card.selected .bank-card-name {
+    color: #3d52d5;
+    font-weight: 600;
+}
+
+/* Other bank dropdown */
+main .form form .field-loan-type-selection .bank-other-wrap {
+    min-width: 160px;
+    max-width: 200px;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+main .form form .field-loan-type-selection .bank-other-select {
+    width: 100%;
+    height: 46px;
+    border: 1.5px solid #d0d5dd;
+    border-radius: 24px;
+    padding: 0 36px 0 16px;
+    font-size: 0.9rem;
+    color: #555;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+main .form form .field-loan-type-selection .bank-other-select:focus {
+    border-color: #3d52d5;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+/* ── Type of Loan Panel ─────────────────────────────────── */
+main .form form .field-type-of-loan-panel {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-type-of-loan-panel > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+main .form form .field-type-of-loan-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='3' y1='22' x2='21' y2='22'/%3E%3Cline x1='6' y1='18' x2='6' y2='11'/%3E%3Cline x1='10' y1='18' x2='10' y2='11'/%3E%3Cline x1='14' y1='18' x2='14' y2='11'/%3E%3Cline x1='18' y1='18' x2='18' y2='11'/%3E%3Cpolygon points='12 2 20 7 4 7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-type-of-loan-panel > legend::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.25s ease;
+}
+
+main .form form .field-type-of-loan-panel.collapsed {
+    padding-bottom: 0;
+    row-gap: 0;
+}
+
+main .form form .field-type-of-loan-panel.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-type-of-loan-panel.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* Floating label on dropdown */
+main .form form .field-type-of-loan-panel .drop-down-wrapper {
+    position: relative;
+    padding-top: 12px;
+    margin: 0;
+}
+
+main .form form .field-type-of-loan-panel .drop-down-wrapper > label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 0 4px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #888;
+    z-index: 1;
+    line-height: 1;
+    pointer-events: none;
+    margin: 0;
+}
+
+main .form form .field-type-of-loan-panel select {
+    height: 52px !important;
+    border-radius: 8px;
+    border: 1.5px solid #d0d5dd !important;
+    padding: 0 36px 0 14px !important;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    margin: 0 !important;
+    width: 100%;
+    background-color: #fff !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 18px !important;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+main .form form .field-type-of-loan-panel select:focus {
+    border-color: #3d52d5 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+/* ── Work Email ID Panel ────────────────────────────────── */
+main .form form .field-work-email-id-panel {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-work-email-id-panel > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+main .form form .field-work-email-id-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/%3E%3Cpolyline points='22 6 12 13 2 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-work-email-id-panel > legend::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.25s ease;
+}
+
+main .form form .field-work-email-id-panel.collapsed {
+    padding-bottom: 0;
+    row-gap: 0;
+}
+
+main .form form .field-work-email-id-panel.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-work-email-id-panel.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* Unified email + verify box */
+main .form form .field-work-email-id-panel .field-work-email-id {
+    grid-column: span 12 !important;
+    padding-top: 0 !important;
+    display: flex !important;
+    align-items: stretch;
+    border: 1.5px solid #d0d5dd;
+    border-radius: 8px;
+    background: #fff;
+    position: relative;
+    margin: 0;
+}
+
+main .form form .field-work-email-id-panel .field-work-email-id > label {
+    top: 0 !important;
+    left: 14px !important;
+    transform: translateY(-50%) !important;
+    z-index: 2;
+}
+
+main .form form .field-work-email-id-panel .field-work-email-id input[type="email"] {
+    border: none !important;
+    border-radius: 0 !important;
+    height: 52px !important;
+    flex: 1;
+    padding: 0 14px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+main .form form .field-work-email-id-panel .field-work-email-id input[type="email"]:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+main .form form .field-work-email-id-panel .field-work-email-id > button {
+    border: none !important;
+    border-left: 1.5px solid #d0d5dd !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #3d52d5 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    padding: 0 20px !important;
+    height: 52px !important;
+    width: auto !important;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: none !important;
+    align-self: center;
+    margin: 0 !important;
+}
+
+main .form form .field-work-email-id-panel .field-work-email-id > button:hover {
+    background: #f0f4ff !important;
+}
+
+main .form form .field-work-email-id-panel .field-verify-work-email-button {
+    display: none !important;
+}
+
+/* Help text */
+main .form form .field-work-email-id-panel .field-work-email-id-helptext {
+    margin: -8px 0 0;
+    padding: 0;
+    grid-column: span 12;
+}
+
+main .form form .field-work-email-id-panel .field-work-email-id-helptext p {
+    font-size: 0.82rem;
+    color: #777;
+    margin: 0;
+}
+
+/* ── Employer Details Panel ─────────────────────────────── */
+main .form form .field-employer-details-panel {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+main .form form .field-employer-details-panel > legend {
+    width: calc(100% + 48px);
+    margin: 0 -24px;
+    background: #eef2ff;
+    border-bottom: 1px solid #dde2ec;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+main .form form .field-employer-details-panel > legend::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+main .form form .field-employer-details-panel > legend::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.25s ease;
+}
+
+main .form form .field-employer-details-panel.collapsed {
+    padding-bottom: 0;
+    row-gap: 0;
+}
+
+main .form form .field-employer-details-panel.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-employer-details-panel.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* Floating labels */
+main .form form .field-employer-details-panel .drop-down-wrapper,
+main .form form .field-employer-details-panel .text-wrapper {
+    position: relative;
+    padding-top: 12px;
+    margin: 0;
+}
+
+main .form form .field-employer-details-panel .drop-down-wrapper > label,
+main .form form .field-employer-details-panel .text-wrapper > label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 0 4px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #888;
+    z-index: 1;
+    line-height: 1;
+    pointer-events: none;
+    margin: 0;
+}
+
+/* Select */
+main .form form .field-employer-details-panel select {
+    height: 52px !important;
+    border-radius: 8px;
+    border: 1.5px solid #d0d5dd !important;
+    padding: 0 36px 0 14px !important;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    margin: 0 !important;
+    width: 100%;
+    background-color: #fff !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 18px !important;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+main .form form .field-employer-details-panel select:focus {
+    border-color: #3d52d5 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+/* Text input */
+main .form form .field-employer-details-panel input[type="text"] {
+    height: 52px !important;
+    border-radius: 8px;
+    border: 1.5px solid #d0d5dd !important;
+    padding: 0 14px !important;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    margin: 0 !important;
+    width: 100%;
+    background: #fff !important;
+}
+
+main .form form .field-employer-details-panel input[type="text"]:focus {
+    border-color: #3d52d5 !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%);
+}
+
+/* Help text */
+main .form form .field-employer-details-panel .field-employer-company-name-helptext,
+main .form form .field-employer-details-panel .field-industry-type-helptext {
+    margin: -8px 0 0;
+    padding: 0;
+    grid-column: span 12;
+}
+
+main .form form .field-employer-details-panel .field-employer-company-name-helptext p,
+main .form form .field-employer-details-panel .field-industry-type-helptext p {
+    font-size: 0.82rem;
+    color: #777;
+    margin: 0;
+}
+
+/* Disclaimer text */
+main .form form .field-employer-details-panel .field-industry-disclaimer-text {
+    grid-column: span 12;
+    background: #eef2ff;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 4px 0 0;
+}
+
+main .form form .field-employer-details-panel .field-industry-disclaimer-text p {
+    font-size: 0.85rem;
+    color: #3d52d5;
+    margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Verify Email ID Panel
+   ═══════════════════════════════════════════════════════════ */
+
+main .form form .field-verify-email-id {
+    background: #fff;
+    border: 1px solid #dde2ec;
+    border-radius: 12px;
+    padding: 0 24px 28px;
+    box-shadow: 0 1px 8px rgb(0 0 0 / 6%);
+    overflow: hidden;
+    row-gap: 0;
+    column-gap: 24px;
+    grid-column: span 12 !important;
+    align-items: start;
+}
+
+main .form form .field-verify-email-id > legend {
+    background: linear-gradient(135deg, #eef0fb 0%, #f0f4ff 100%);
+    border-bottom: 1px solid #dde2ec;
+    margin: 0 -24px;
+    width: calc(100% + 48px);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    cursor: pointer;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+main .form form .field-verify-email-id > legend::before {
+    content: '';
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233d52d5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+main .form form .field-verify-email-id > legend::after {
+    content: '';
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    transition: transform 0.25s ease;
+}
+
+main .form form .field-verify-email-id.collapsed {
+    padding-bottom: 0;
+}
+
+main .form form .field-verify-email-id.collapsed > *:not(legend) {
+    display: none !important;
+}
+
+main .form form .field-verify-email-id.collapsed > legend {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+main .form form .field-verify-email-id.collapsed > legend::after {
+    transform: rotate(180deg);
+}
+
+/* Sub-panels layout */
+main .form form .field-primary-email-panel,
+main .form form .field-work-email-panel {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    grid-template-rows: auto auto !important;
+    column-gap: 12px !important;
+    row-gap: 10px !important;
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    min-width: 0;
+    align-self: start;
+}
+
+main .form form .field-primary-email-panel > legend,
+main .form form .field-work-email-panel > legend {
+    display: none !important;
+}
+
+/* Email input - floating label */
+main .form form .field-primary-email-panel .field-primary-email-id,
+main .form form .field-work-email-panel .field-work-email-id {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    position: relative !important;
+    padding-top: 12px !important;
+    margin: 0 !important;
+    min-width: 0;
+}
+
+main .form form .field-primary-email-panel .field-primary-email-id .field-label,
+main .form form .field-work-email-panel .field-work-email-id .field-label {
+    position: absolute !important;
+    top: 12px !important;
+    left: 14px !important;
+    transform: translateY(-50%) !important;
+    font-size: 0.75rem !important;
+    color: #888 !important;
+    background: #fff !important;
+    padding: 0 4px !important;
+    pointer-events: none;
+    z-index: 1;
+    white-space: nowrap;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+}
+
+main .form form .field-primary-email-panel .field-primary-email-id input[type="email"],
+main .form form .field-work-email-panel .field-work-email-id input[type="email"] {
+    height: 48px !important;
+    border: 1.5px solid #d0d5dd !important;
+    border-radius: 8px !important;
+    padding: 0 14px !important;
+    font-size: 0.95rem !important;
+    color: #1a1a1a !important;
+    background: #fff !important;
+    margin: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+main .form form .field-primary-email-panel .field-primary-email-id input[type="email"]:focus,
+main .form form .field-work-email-panel .field-work-email-id input[type="email"]:focus {
+    border-color: #3d52d5 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgb(61 82 213 / 10%) !important;
+}
+
+/* Verify button */
+main .form form .field-primary-email-panel .field-primary-email-verify-button,
+main .form form .field-work-email-panel .field-work-email-verify-button {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    align-self: end !important;
+    display: flex !important;
+    align-items: stretch !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: auto !important;
+}
+
+main .form form .field-primary-email-panel .field-primary-email-verify-button button,
+main .form form .field-work-email-panel .field-work-email-verify-button button {
+    height: 48px !important;
+    padding: 0 22px !important;
+    border: 1.5px solid #3d52d5 !important;
+    border-radius: 24px !important;
+    background: transparent !important;
+    color: #3d52d5 !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: background 0.2s, color 0.2s !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
+}
+
+main .form form .field-primary-email-panel .field-primary-email-verify-button button:hover,
+main .form form .field-work-email-panel .field-work-email-verify-button button:hover {
+    background: #3d52d5 !important;
+    color: #fff !important;
+}
+
+/* Help text */
+main .form form .field-primary-email-panel .field-primary-email-mandatory-note,
+main .form form .field-work-email-panel .field-work-email-note {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: auto !important;
+}
+
+main .form form .field-primary-email-panel .field-primary-email-mandatory-note p,
+main .form form .field-work-email-panel .field-work-email-note p {
+    font-size: 0.82rem !important;
+    color: #6b7280 !important;
+    margin: 0 !important;
+    line-height: 1.45 !important;
+}
+
