@@ -1903,6 +1903,7 @@ function decorateVerifyEmailIdSection(form) {
     errorEl.style.padding = '0.5rem';
     errorEl.style.backgroundColor = '#fee2e2';
     errorEl.style.borderRadius = '4px';
+    errorEl.style.whiteSpace = 'nowrap';
     errorEl.textContent = message;
     const otpInput = panel.querySelector('.field-otp');
     if (otpInput) {
