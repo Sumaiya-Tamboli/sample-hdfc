@@ -2138,6 +2138,9 @@ function decorateVerifyEmailIdSection(form) {
             otpInput.value = '';
             submitBtn.disabled = true;
 
+            // Hide the attempts info display when showing error
+            if (attemptsInfo) attemptsInfo.style.display = 'none';
+
             // Start 2-second countdown before enabling Resend OTP
             let timeLeft = 2;
             if (timerField) timerField.style.display = '';
