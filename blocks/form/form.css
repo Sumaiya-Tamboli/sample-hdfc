@@ -40,6 +40,68 @@
   letter-spacing: 0.5px;
 }
 
+/* Email verification styles */
+.email-domain-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.email-domain-chip {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid #a5b4fc;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  color: #4a62b6;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  font-weight: 400;
+}
+
+.email-domain-chip:hover {
+  background: #eef2ff;
+  border-color: #3d52d5;
+}
+
+.email-verification-error {
+  display: block;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.email-verification-success {
+  display: block;
+  color: #16a34a;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.field-email-id.email-invalid input {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.field-email-id.email-invalid input:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
+.field-email-id.email-verified input {
+  border-color: #16a34a !important;
+  background-color: #f0fdf4 !important;
+}
+
+.field-email-id.email-verified input:focus {
+  border-color: #16a34a !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1) !important;
+}
+
 :root {
     --background-color-primary: #fff;
     --label-color: #666;

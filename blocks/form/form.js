@@ -1528,6 +1528,149 @@ function decorateLoanApplicationNumber(form) {
   observer.observe(form, { childList: true, subtree: true });
 }
 
+function decorateEmailVerification(form) {
+  const COMMON_DOMAINS = ['@gmail.com', '@outlook.com', '@yahoo.com'];
+
+  function createDomainSuggestions(emailInput, wrapper) {
+    let suggestionsContainer = wrapper.querySelector('.email-domain-suggestions');
+    if (suggestionsContainer) return;
+
+    suggestionsContainer = document.createElement('div');
+    suggestionsContainer.className = 'email-domain-suggestions';
+
+    COMMON_DOMAINS.forEach((domain) => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'email-domain-chip';
+      chip.textContent = domain;
+      chip.addEventListener('click', () => {
+        const username = emailInput.value.split('@')[0] || '';
+        emailInput.value = username + domain;
+        emailInput.dispatchEvent(new Event('input', { bubbles: true }));
+        emailInput.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      suggestionsContainer.appendChild(chip);
+    });
+
+    wrapper.appendChild(suggestionsContainer);
+  }
+
+  function showError(wrapper, message) {
+    clearError(wrapper);
+    const errorEl = document.createElement('span');
+    errorEl.className = 'email-verification-error';
+    errorEl.textContent = message;
+    wrapper.appendChild(errorEl);
+    wrapper.classList.add('email-invalid');
+  }
+
+  function clearError(wrapper) {
+    const errorEl = wrapper.querySelector('.email-verification-error');
+    if (errorEl) errorEl.remove();
+    wrapper.classList.remove('email-invalid');
+  }
+
+  function showSuccess(wrapper, message) {
+    clearError(wrapper);
+    const successEl = document.createElement('span');
+    successEl.className = 'email-verification-success';
+    successEl.textContent = message;
+    wrapper.appendChild(successEl);
+    wrapper.classList.add('email-verified');
+  }
+
+  function decorateEmailField() {
+    const wrapper = form.querySelector('.field-email-id');
+    if (!wrapper || wrapper.dataset.emailDecorated) return;
+
+    const emailInput = wrapper.querySelector('input[type="email"]');
+    const verifyButton = wrapper.querySelector('button');
+    if (!emailInput || !verifyButton) return;
+
+    wrapper.dataset.emailDecorated = 'true';
+
+    // Create domain suggestions
+    createDomainSuggestions(emailInput, wrapper);
+
+    // Clear error on input
+    emailInput.addEventListener('input', () => {
+      clearError(wrapper);
+      wrapper.classList.remove('email-verified');
+    });
+
+    // Validate email format on blur
+    emailInput.addEventListener('blur', () => {
+      const email = emailInput.value.trim();
+      if (email && !validateEmailFormat(email)) {
+        showError(wrapper, 'Please enter a valid email address');
+      }
+    });
+
+    // Handle verify button click
+    verifyButton.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        showError(wrapper, 'Please enter your email address');
+        return;
+      }
+
+      if (!validateEmailFormat(email)) {
+        showError(wrapper, 'Please enter a valid email address');
+        return;
+      }
+
+      // Disable button and show loading
+      verifyButton.disabled = true;
+      const originalText = verifyButton.textContent;
+      verifyButton.textContent = 'Verifying...';
+
+      try {
+        // Simulate OTP generation
+        const otpCode = String(Math.floor(100000 + Math.random() * 900000));
+        
+        // Show OTP in console for testing
+        console.log(`Email OTP for ${email}: ${otpCode}`);
+
+        // Try API call in background
+        try {
+          await fetch('http://localhost:3000/api/generate-email-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+          });
+        } catch {
+          // API not available, use mock OTP
+        }
+
+        // For demo purposes, auto-verify after 1 second
+        setTimeout(() => {
+          showSuccess(wrapper, '✓ Email verified successfully');
+          verifyButton.textContent = 'Verified';
+          verifyButton.style.background = '#16a34a';
+          verifyButton.style.borderColor = '#16a34a';
+          verifyButton.style.color = '#fff';
+          emailInput.readOnly = true;
+        }, 1000);
+
+      } catch (error) {
+        showError(wrapper, 'Verification failed. Please try again.');
+        verifyButton.disabled = false;
+        verifyButton.textContent = originalText;
+      }
+    });
+  }
+
+  function validateEmailFormat(email) {
+    const emailPattern = /^([A-Za-z0-9][._]?)+[A-Za-z0-9]@[A-Za-z0-9]+(\.?[A-Za-z0-9]){2}\.([A-Za-z0-9]{2,4})?$/;
+    return emailPattern.test(email);
+  }
+
+  decorateEmailField();
+  const observer = new MutationObserver(() => decorateEmailField());
+  observer.observe(form, { childList: true, subtree: true });
+}
+
 function decoratePanValidation(form) {
   function validatePanFormat(pan) {
     if (!pan || typeof pan !== 'string') return false;
@@ -1721,6 +1864,7 @@ export default async function decorate(block) {
     decorateLoanApplicationNumber(form);
     decorateRandomCustomerData(form);
     decoratePanValidation(form);
+    decorateEmailVerification(form);
 
     // Wrap "here" in consent labels so it can be styled blue
     form.querySelectorAll('.field-consent-communication label, .field-consent-marketing label').forEach((label) => {

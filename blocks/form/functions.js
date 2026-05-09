@@ -225,6 +225,83 @@ function getPanErrorMessage(pan) {
   return ''; // Valid PAN
 }
 
+/**
+ * Validates email format
+ * @name validateEmail
+ * @param {string} email - Email to validate
+ * @return {boolean} - Returns true if valid email format
+ */
+function validateEmail(email) {
+  if (!email || typeof email !== 'string') return false;
+  const emailPattern = /^([A-Za-z0-9][._]?)+[A-Za-z0-9]@[A-Za-z0-9]+(\.?[A-Za-z0-9]){2}\.([A-Za-z0-9]{2,4})?$/;
+  return emailPattern.test(email.trim());
+}
+
+/**
+ * Extracts domain from email address
+ * @name getEmailDomain
+ * @param {string} email - Email address
+ * @return {string} - Domain part of email (e.g., '@gmail.com')
+ */
+function getEmailDomain(email) {
+  if (!email || typeof email !== 'string') return '';
+  const atIndex = email.indexOf('@');
+  if (atIndex === -1) return '';
+  return email.substring(atIndex);
+}
+
+/**
+ * Gets username part from email
+ * @name getEmailUsername
+ * @param {string} email - Email address
+ * @return {string} - Username part before @
+ */
+function getEmailUsername(email) {
+  if (!email || typeof email !== 'string') return '';
+  const atIndex = email.indexOf('@');
+  if (atIndex === -1) return email;
+  return email.substring(0, atIndex);
+}
+
+/**
+ * Generates email OTP for verification
+ * @name generateEmailOtp
+ * @param {string} email - Email address
+ * @return {Promise<object>} - API response
+ */
+async function generateEmailOtp(email) {
+  try {
+    const res = await fetch(`${OTP_API_BASE}/api/generate-email-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    return await res.json();
+  } catch (error) {
+    return { success: false, message: 'Network error' };
+  }
+}
+
+/**
+ * Validates email OTP
+ * @name validateEmailOtp
+ * @param {string} email - Email address
+ * @param {string} otp - OTP code
+ * @return {Promise<object>} - API response
+ */
+async function validateEmailOtp(email, otp) {
+  try {
+    const res = await fetch(`${OTP_API_BASE}/api/validate-email-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, otp }),
+    });
+    return await res.json();
+  } catch (error) {
+    return { success: false, message: 'Network error' };
+  }
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName,
@@ -236,4 +313,9 @@ export {
   validatePan,
   formatPanInput,
   getPanErrorMessage,
+  validateEmail,
+  getEmailDomain,
+  getEmailUsername,
+  generateEmailOtp,
+  validateEmailOtp,
 };
