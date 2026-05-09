@@ -2723,9 +2723,10 @@ main .form form .loan-range-slider input[type="range"]::before {
     left: 0;
     top: 0;
     height: 4px;
-    width: var(--range-pct, 100%);
+    width: calc(var(--range-pct, 100%) + 9px);
     background: #f97316;
     border-radius: 4px 0 0 4px;
+    max-width: 100%;
 }
 
 main .form form .loan-range-slider input[type="range"]::after {
@@ -2734,9 +2735,10 @@ main .form form .loan-range-slider input[type="range"]::after {
     right: 0;
     top: 0;
     height: 4px;
-    width: calc(100% - var(--range-pct, 100%));
+    width: calc(100% - var(--range-pct, 100%) - 9px);
     background: #e0e0e0;
     border-radius: 0 4px 4px 0;
+    min-width: 0;
 }
 
 main .form form .loan-range-slider input[type="range"]::-webkit-slider-thumb {
