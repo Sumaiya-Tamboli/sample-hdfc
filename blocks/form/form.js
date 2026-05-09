@@ -763,19 +763,10 @@ function decorateLoanSliders(form) {
           if (Number(rangeInput.value) > calculatedMax) {
             rangeInput.value = calculatedMax;
             state.amount = calculatedMax;
-            
-            // Update display
-            const display = loanAmountWrapper.querySelector('.loan-amount-display');
-            if (display) {
-              display.value = sliderConfigs['field-loan-amount-inr'].format(calculatedMax);
-            }
-            
-            updateEMI();
           }
           
-          // Recalculate fill percentage after max change with proper rounding
-          const pct = Math.round(((rangeInput.value - rangeInput.min) / (rangeInput.max - rangeInput.min)) * 10000) / 100;
-          rangeInput.style.setProperty('--range-pct', `${pct}%`);
+          // Trigger input event to update the visual position properly
+          rangeInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
         
         // Update slider labels
