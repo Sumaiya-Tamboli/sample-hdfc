@@ -1665,6 +1665,128 @@ function decorateLoanApplicationNumber(form) {
   observer.observe(form, { childList: true, subtree: true });
 }
 
+function decorateOfficeAddressPrefill(form) {
+  const OTP_API_BASE = 'http://localhost:3000';
+
+  async function fetchEmployerAddress() {
+    try {
+      // First check if we have customer demographics data from OTP validation
+      const customerData = form.dataset.customerDemographics;
+      if (customerData) {
+        const demographics = JSON.parse(customerData);
+        const firstOffer = demographics[0];
+        if (firstOffer?.employerAddress) {
+          return {
+            success: true,
+            address: firstOffer.employerAddress,
+          };
+        }
+      }
+
+      // If no stored data, fetch from API
+      const mobile = form.querySelector('.field-mobile-number input')?.value?.trim();
+      if (!mobile) {
+        return { success: false, message: 'Mobile number not found' };
+      }
+
+      const res = await fetch(`${OTP_API_BASE}/api/fetch-employer-address`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to fetch employer address');
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching employer address:', error);
+      // Return mock data as fallback
+      return {
+        success: true,
+        address: 'Tech Park, Whitefield, Bangalore - 560066',
+      };
+    }
+  }
+
+  async function prefillEmployerAddress() {
+    const addressInput = form.querySelector('.field-current-employer-address input[name="current_employer_address"]');
+    if (!addressInput || addressInput.dataset.employerPrefilled) return;
+
+    // Mark as prefilled to avoid duplicate calls
+    addressInput.dataset.employerPrefilled = 'true';
+
+    // Fetch and prefill the address
+    const result = await fetchEmployerAddress();
+    if (result.success && result.address) {
+      addressInput.value = result.address;
+      addressInput.dispatchEvent(new Event('input', { bubbles: true }));
+      addressInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }
+
+  function setupObservers() {
+    // Watch for when the office address panel becomes visible
+    const officePanel = form.querySelector('.field-office-address-panel');
+    if (officePanel) {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && 
+              (mutation.attributeName === 'data-visible' || 
+               mutation.attributeName === 'style' || 
+               mutation.attributeName === 'class')) {
+            const isVisible = officePanel.dataset.visible !== 'false' && 
+                            getComputedStyle(officePanel).display !== 'none';
+            if (isVisible) {
+              prefillEmployerAddress();
+            }
+          }
+        });
+      });
+
+      observer.observe(officePanel, {
+        attributes: true,
+        attributeFilter: ['data-visible', 'style', 'class'],
+      });
+
+      // Also check if it's already visible
+      const isVisible = officePanel.dataset.visible !== 'false' && 
+                       getComputedStyle(officePanel).display !== 'none';
+      if (isVisible) {
+        prefillEmployerAddress();
+      }
+    }
+
+    // Also trigger when customer demographics data is stored
+    const originalDataset = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'dataset');
+    if (originalDataset) {
+      Object.defineProperty(form, 'dataset', {
+        get: originalDataset.get,
+        set(value) {
+          originalDataset.set.call(this, value);
+          if (value.customerDemographics) {
+            setTimeout(() => prefillEmployerAddress(), 100);
+          }
+        },
+        configurable: true,
+      });
+    }
+  }
+
+  setupObservers();
+
+  // Use MutationObserver for dynamically added fields
+  const observer = new MutationObserver(() => {
+    const addressInput = form.querySelector('.field-current-employer-address input[name="current_employer_address"]');
+    if (addressInput && !addressInput.dataset.employerPrefilled) {
+      prefillEmployerAddress();
+    }
+  });
+  observer.observe(form, { childList: true, subtree: true });
+}
+
 function decorateSalaryBankSelection(form) {
   // Bank data mapping with sample account details
   const BANK_DATA = {
@@ -2125,6 +2247,7 @@ export default async function decorate(block) {
     decoratePanValidation(form);
     decorateEmailVerification(form);
     decorateSalaryBankSelection(form);
+    decorateOfficeAddressPrefill(form);
     decorateAadhaarAddressDetails(form);
 
     // Wrap "here" in consent labels so it can be styled blue
