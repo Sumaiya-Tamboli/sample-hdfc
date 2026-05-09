@@ -1580,15 +1580,15 @@ function decorateEmailVerification(form) {
     wrapper.classList.add('email-verified');
   }
 
-  function decorateEmailField() {
-    const wrapper = form.querySelector('.field-email-id');
-    if (!wrapper || wrapper.dataset.emailDecorated) return;
+  function validateEmailFormat(email) {
+    const emailPattern = /^([A-Za-z0-9][._]?)+[A-Za-z0-9]@[A-Za-z0-9]+(\.?[A-Za-z0-9]){2}\.([A-Za-z0-9]{2,4})?$/;
+    return emailPattern.test(email);
+  }
 
-    const emailInput = wrapper.querySelector('input[type="email"]');
-    const verifyButton = wrapper.querySelector('button');
-    if (!emailInput || !verifyButton) return;
-
-    wrapper.dataset.emailDecorated = 'true';
+  function setupEmailVerification(wrapper, emailInput, verifyButton) {
+    if (!emailInput || !verifyButton || wrapper.dataset.emailVerified) return;
+    
+    wrapper.dataset.emailVerified = 'true';
 
     // Create domain suggestions
     createDomainSuggestions(emailInput, wrapper);
@@ -1662,13 +1662,30 @@ function decorateEmailVerification(form) {
     });
   }
 
-  function validateEmailFormat(email) {
-    const emailPattern = /^([A-Za-z0-9][._]?)+[A-Za-z0-9]@[A-Za-z0-9]+(\.?[A-Za-z0-9]){2}\.([A-Za-z0-9]{2,4})?$/;
-    return emailPattern.test(email);
+  function decorateEmailFields() {
+    // Personal Email ID
+    const personalWrapper = form.querySelector('.field-email-id');
+    if (personalWrapper && !personalWrapper.dataset.emailVerified) {
+      const emailInput = personalWrapper.querySelector('input[type="email"]');
+      const verifyButton = personalWrapper.querySelector('button');
+      if (emailInput && verifyButton) {
+        setupEmailVerification(personalWrapper, emailInput, verifyButton);
+      }
+    }
+
+    // Work Email ID
+    const workWrapper = form.querySelector('.field-work-email-id');
+    if (workWrapper && !workWrapper.dataset.emailVerified) {
+      const emailInput = workWrapper.querySelector('input[type="email"]');
+      const verifyButton = workWrapper.querySelector('button');
+      if (emailInput && verifyButton) {
+        setupEmailVerification(workWrapper, emailInput, verifyButton);
+      }
+    }
   }
 
-  decorateEmailField();
-  const observer = new MutationObserver(() => decorateEmailField());
+  decorateEmailFields();
+  const observer = new MutationObserver(() => decorateEmailFields());
   observer.observe(form, { childList: true, subtree: true });
 }
 
