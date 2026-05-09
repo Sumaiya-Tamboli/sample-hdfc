@@ -1926,6 +1926,9 @@ function decorateVerifyEmailIdSection(form) {
     successEl.style.backgroundColor = '#dcfce7';
     successEl.style.borderRadius = '4px';
     successEl.style.fontWeight = '600';
+    successEl.style.whiteSpace = 'nowrap';
+    successEl.style.overflow = 'hidden';
+    successEl.style.textOverflow = 'ellipsis';
     successEl.textContent = `✓ Email verified successfully! (${email})`;
     
     const submitBtn = panel.querySelector('.field-submit-otp');
