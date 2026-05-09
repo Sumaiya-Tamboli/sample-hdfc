@@ -1528,6 +1528,129 @@ function decorateLoanApplicationNumber(form) {
   observer.observe(form, { childList: true, subtree: true });
 }
 
+function decoratePanValidation(form) {
+  function validatePanFormat(pan) {
+    if (!pan || typeof pan !== 'string') return false;
+    const cleanPan = pan.trim().toUpperCase();
+    if (cleanPan.length !== 10) return false;
+    const panPattern = /^[A-Z]{3}[PCHABFTLJG][A-Z][0-9]{4}[A-Z]$/;
+    return panPattern.test(cleanPan);
+  }
+
+  function getPanError(pan) {
+    if (!pan || pan.trim().length === 0) {
+      return 'PAN number is required';
+    }
+    const cleanPan = pan.trim().toUpperCase();
+    if (cleanPan.length !== 10) {
+      return 'PAN must be exactly 10 characters';
+    }
+    if (!/^[A-Z]{3}/.test(cleanPan)) {
+      return 'First 3 characters must be alphabetic (A-Z)';
+    }
+    if (!/^[A-Z]{3}[PCHABFTLJG]/.test(cleanPan)) {
+      return 'Invalid PAN type (4th character must be P/C/H/A/B/T/F/L/J/G)';
+    }
+    if (!/^[A-Z]{4}[A-Z]/.test(cleanPan)) {
+      return '5th character must be alphabetic (A-Z)';
+    }
+    if (!/^[A-Z]{5}[0-9]{4}/.test(cleanPan)) {
+      return 'Characters 6-9 must be numeric digits';
+    }
+    if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(cleanPan)) {
+      return 'Last character must be alphabetic (A-Z)';
+    }
+    return '';
+  }
+
+  function showPanError(wrapper, message) {
+    let errorEl = wrapper.querySelector('.pan-error-message');
+    if (!errorEl) {
+      errorEl = document.createElement('span');
+      errorEl.className = 'pan-error-message';
+      errorEl.style.color = '#dc2626';
+      errorEl.style.fontSize = '0.875rem';
+      errorEl.style.marginTop = '0.25rem';
+      errorEl.style.display = 'block';
+      wrapper.appendChild(errorEl);
+    }
+    errorEl.textContent = message;
+    wrapper.classList.add('pan-invalid');
+  }
+
+  function clearPanError(wrapper) {
+    const errorEl = wrapper.querySelector('.pan-error-message');
+    if (errorEl) errorEl.remove();
+    wrapper.classList.remove('pan-invalid');
+  }
+
+  function decorateInput() {
+    const wrapper = form.querySelector('.field-pan-number');
+    const input = wrapper?.querySelector('input[type="text"]');
+    if (!input || input.dataset.panDecorated) return;
+
+    input.dataset.panDecorated = 'true';
+    input.maxLength = 10;
+    input.placeholder = 'ABCPK1234H';
+    input.style.textTransform = 'uppercase';
+
+    // Format input in real-time
+    input.addEventListener('input', (e) => {
+      const cursorPos = e.target.selectionStart;
+      let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      
+      if (value.length > 10) {
+        value = value.substring(0, 10);
+      }
+      
+      e.target.value = value;
+      e.target.setSelectionRange(cursorPos, cursorPos);
+      
+      // Clear error while typing
+      clearPanError(wrapper);
+    });
+
+    // Validate on blur
+    input.addEventListener('blur', () => {
+      const value = input.value.trim();
+      if (value.length === 0) {
+        clearPanError(wrapper);
+        return;
+      }
+      
+      if (!validatePanFormat(value)) {
+        const errorMsg = getPanError(value);
+        showPanError(wrapper, errorMsg);
+      } else {
+        clearPanError(wrapper);
+      }
+    });
+
+    // Prevent invalid characters on paste
+    input.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+      const cleaned = pastedText.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 10);
+      input.value = cleaned;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    // Add visual indicator for valid PAN
+    input.addEventListener('input', () => {
+      const value = input.value.trim();
+      if (value.length === 10 && validatePanFormat(value)) {
+        wrapper.classList.add('pan-valid');
+      } else {
+        wrapper.classList.remove('pan-valid');
+      }
+    });
+  }
+
+  decorateInput();
+  const observer = new MutationObserver(() => decorateInput());
+  observer.observe(form, { childList: true, subtree: true });
+}
+
 export default async function decorate(block) {
   let container = block.querySelector('a[href]');
   let formDef;
@@ -1597,6 +1720,7 @@ export default async function decorate(block) {
     decorateIncomeVerification(form);
     decorateLoanApplicationNumber(form);
     decorateRandomCustomerData(form);
+    decoratePanValidation(form);
 
     // Wrap "here" in consent labels so it can be styled blue
     form.querySelectorAll('.field-consent-communication label, .field-consent-marketing label').forEach((label) => {

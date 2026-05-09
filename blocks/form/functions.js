@@ -127,7 +127,113 @@ async function validateOtp(mobile, otp, nextPanelRef, globals) {
   }
 }
 
+/**
+ * Validates PAN card format according to Indian standards
+ * Format: ABCPK1234H
+ * - First 3: Alphabetic (AAA-ZZZ)
+ * - 4th: Type indicator (P/C/H/A/B/T/F/L/J/G)
+ * - 5th: First letter of surname/name
+ * - Next 4: Numeric (0001-9999)
+ * - Last: Alphabetic check digit
+ * @name validatePan
+ * @param {string} pan - PAN number to validate
+ * @return {boolean} - Returns true if valid PAN format
+ */
+function validatePan(pan) {
+  if (!pan || typeof pan !== 'string') return false;
+
+  // Remove spaces and convert to uppercase
+  const cleanPan = pan.trim().toUpperCase();
+
+  // Check length
+  if (cleanPan.length !== 10) return false;
+
+  // PAN regex pattern
+  // ^[A-Z]{3} - First 3 alphabetic characters
+  // [PCHABFTLJ] - 4th character: type of holder
+  // [A-Z] - 5th character: first letter of name
+  // [0-9]{4} - Next 4 numeric digits
+  // [A-Z]$ - Last alphabetic check digit
+  const panPattern = /^[A-Z]{3}[PCHABFTLJG][A-Z][0-9]{4}[A-Z]$/;
+
+  return panPattern.test(cleanPan);
+}
+
+/**
+ * Formats PAN input in real-time as user types
+ * Converts to uppercase and restricts to valid characters
+ * @name formatPanInput
+ * @param {string} value - Current input value
+ * @return {string} - Formatted PAN value
+ */
+function formatPanInput(value) {
+  if (!value) return '';
+
+  // Convert to uppercase and remove invalid characters
+  let formatted = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+  // Limit to 10 characters
+  if (formatted.length > 10) {
+    formatted = formatted.substring(0, 10);
+  }
+
+  return formatted;
+}
+
+/**
+ * Gets descriptive error message for invalid PAN
+ * @name getPanErrorMessage
+ * @param {string} pan - PAN number to validate
+ * @return {string} - Error message or empty string if valid
+ */
+function getPanErrorMessage(pan) {
+  if (!pan || pan.trim().length === 0) {
+    return 'PAN number is required';
+  }
+
+  const cleanPan = pan.trim().toUpperCase();
+
+  if (cleanPan.length !== 10) {
+    return 'PAN must be exactly 10 characters';
+  }
+
+  // Check first 3 characters
+  if (!/^[A-Z]{3}/.test(cleanPan)) {
+    return 'First 3 characters must be alphabetic (A-Z)';
+  }
+
+  // Check 4th character (type indicator)
+  if (!/^[A-Z]{3}[PCHABFTLJG]/.test(cleanPan)) {
+    return 'Invalid PAN type indicator (4th character)';
+  }
+
+  // Check 5th character
+  if (!/^[A-Z]{4}[A-Z]/.test(cleanPan)) {
+    return '5th character must be alphabetic (A-Z)';
+  }
+
+  // Check next 4 numeric digits
+  if (!/^[A-Z]{5}[0-9]{4}/.test(cleanPan)) {
+    return 'Characters 6-9 must be numeric (0-9)';
+  }
+
+  // Check last character
+  if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(cleanPan)) {
+    return 'Last character must be alphabetic (A-Z)';
+  }
+
+  return ''; // Valid PAN
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getFullName, days, submitFormArrayToString, maskMobileNumber, generateOtp, validateOtp,
+  getFullName,
+  days,
+  submitFormArrayToString,
+  maskMobileNumber,
+  generateOtp,
+  validateOtp,
+  validatePan,
+  formatPanInput,
+  getPanErrorMessage,
 };

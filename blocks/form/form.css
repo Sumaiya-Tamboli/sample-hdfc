@@ -5,6 +5,41 @@
   margin-top: 6px;
 }
 
+/* PAN validation styles */
+.pan-error-message {
+  display: block;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.field-pan-number.pan-invalid input {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.field-pan-number.pan-invalid input:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
+.field-pan-number.pan-valid input {
+  border-color: #16a34a !important;
+  background-color: #f0fdf4 !important;
+}
+
+.field-pan-number.pan-valid input:focus {
+  border-color: #16a34a !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1) !important;
+}
+
+/* PAN input - ensure uppercase display */
+.field-pan-number input {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 :root {
     --background-color-primary: #fff;
     --label-color: #666;
@@ -4316,4 +4351,3 @@ main .form form .field-work-email-panel .field-work-email-note p {
     margin: 0 !important;
     line-height: 1.45 !important;
 }
-
