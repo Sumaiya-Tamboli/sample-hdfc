@@ -1528,6 +1528,147 @@ function decorateLoanApplicationNumber(form) {
   observer.observe(form, { childList: true, subtree: true });
 }
 
+function decorateAadhaarAddressDetails(form) {
+  function wire() {
+    const addressPanel = form.querySelector('.field-address-details');
+    if (!addressPanel || addressPanel.dataset.addressWired) return;
+
+    const displayWrapper = addressPanel.querySelector('.field-aadhaar-address-display');
+    const radioGroup = addressPanel.querySelector('.field-aadhaar-address-type');
+    
+    if (!displayWrapper || !radioGroup) return;
+
+    addressPanel.dataset.addressWired = 'true';
+
+    // Function to fetch and display address
+    async function fetchAndDisplayAddress() {
+      // Get Aadhaar number from form (adjust selector based on your form field)
+      const aadhaarInput = form.querySelector('.field-aadhaar-number input, input[name="aadhaar_number"]');
+      const mobileInput = form.querySelector('.field-mobile-number input, input[name="mobile_number"]');
+
+      if (!aadhaarInput?.value || !mobileInput?.value) {
+        console.warn('Aadhaar or mobile number not available');
+        return;
+      }
+
+      // Show loading state
+      const displayP = displayWrapper.querySelector('p');
+      if (displayP) {
+        displayP.innerHTML = '<p>Loading address...<br></p>';
+      }
+
+      try {
+        // Import the function from functions.js
+        const { fetchAadhaarAddress, formatAddressDisplay } = await import('./functions.js');
+        
+        // Fetch address from API
+        const response = await fetchAadhaarAddress(
+          aadhaarInput.value,
+          mobileInput.value
+        );
+
+        if (response.success && response.address) {
+          // Display the address
+          const formattedAddress = formatAddressDisplay(response.address);
+          if (displayP) {
+            displayP.innerHTML = `<p>Address as per Aadhaar records<br>${formattedAddress}</p>`;
+          }
+
+          // Store address data for later use
+          addressPanel.dataset.addressData = JSON.stringify(response.address);
+
+          // Pre-select radio button if addressType is provided
+          if (response.address.addressType) {
+            const radioToSelect = radioGroup.querySelector(
+              `input[value="${response.address.addressType}"]`
+            );
+            if (radioToSelect && !radioToSelect.checked) {
+              radioToSelect.checked = true;
+              radioToSelect.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+          }
+        } else {
+          if (displayP) {
+            displayP.innerHTML = '<p>Address as per Aadhaar records<br>Unable to fetch address. Please enter manually.</p>';
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching address:', error);
+        if (displayP) {
+          displayP.innerHTML = '<p>Address as per Aadhaar records<br>Error loading address. Please enter manually.</p>';
+        }
+      }
+    }
+
+    // Handle radio button changes to populate address fields
+    radioGroup.querySelectorAll('input[type="radio"]').forEach((radio) => {
+      radio.addEventListener('change', () => {
+        if (!radio.checked) return;
+
+        const selectedType = radio.value;
+        const addressData = addressPanel.dataset.addressData;
+
+        if (!addressData) return;
+
+        try {
+          const address = JSON.parse(addressData);
+          
+          // Import populate function
+          import('./functions.js').then(({ populateAddressFields }) => {
+            // Populate fields based on selection
+            switch (selectedType) {
+              case 'permanent_address':
+                populateAddressFields(form, address, 'permanent');
+                break;
+              case 'current_address':
+                populateAddressFields(form, address, 'current');
+                break;
+              case 'both':
+                populateAddressFields(form, address, 'permanent');
+                populateAddressFields(form, address, 'current');
+                break;
+              case 'none':
+                // Clear both address sections if user selects none
+                console.log('User selected none - manual entry required');
+                break;
+              default:
+                break;
+            }
+          });
+        } catch (error) {
+          console.error('Error parsing address data:', error);
+        }
+      });
+    });
+
+    // Auto-fetch address when panel becomes visible
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-visible') {
+          if (addressPanel.dataset.visible === 'true' && !addressPanel.dataset.addressFetched) {
+            addressPanel.dataset.addressFetched = 'true';
+            fetchAndDisplayAddress();
+          }
+        }
+      });
+    });
+
+    observer.observe(addressPanel, { attributes: true });
+
+    // Also fetch if already visible
+    if (addressPanel.dataset.visible !== 'false' && getComputedStyle(addressPanel).display !== 'none') {
+      if (!addressPanel.dataset.addressFetched) {
+        addressPanel.dataset.addressFetched = 'true';
+        fetchAndDisplayAddress();
+      }
+    }
+  }
+
+  wire();
+  const observer = new MutationObserver(() => wire());
+  observer.observe(form, { childList: true, subtree: true });
+}
+
 function decorateEmailVerification(form) {
   const COMMON_DOMAINS = ['@gmail.com', '@outlook.com', '@yahoo.com'];
 
@@ -1865,6 +2006,7 @@ export default async function decorate(block) {
     decorateRandomCustomerData(form);
     decoratePanValidation(form);
     decorateEmailVerification(form);
+    decorateAadhaarAddressDetails(form);
 
     // Wrap "here" in consent labels so it can be styled blue
     form.querySelectorAll('.field-consent-communication label, .field-consent-marketing label').forEach((label) => {
