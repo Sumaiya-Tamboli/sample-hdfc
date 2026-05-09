@@ -302,101 +302,6 @@ async function validateEmailOtp(email, otp) {
   }
 }
 
-/**
- * Fetches address details from Aadhaar API
- * @name fetchAadhaarAddress
- * @param {string} aadhaarNumber - Aadhaar number (12 digits)
- * @param {string} mobile - Mobile number for verification
- * @return {Promise<object>} - Address data with structure:
- *   {
- *     success: boolean,
- *     address: {
- *       fullAddress: string,
- *       addressLine1: string,
- *       addressLine2: string,
- *       landmark: string,
- *       city: string,
- *       state: string,
- *       pincode: string,
- *       addressType: 'permanent_address' | 'current_address' | 'both' | 'none'
- *     }
- *   }
- */
-async function fetchAadhaarAddress(aadhaarNumber, mobile) {
-  try {
-    const res = await fetch(`${OTP_API_BASE}/api/fetch-aadhaar-address`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        aadhaarNumber: aadhaarNumber?.replace(/\s/g, ''),
-        mobileNumber: mobile,
-      }),
-    });
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch address');
-    }
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching Aadhaar address:', error);
-    return {
-      success: false,
-      message: error.message || 'Network error while fetching address',
-    };
-  }
-}
-
-/**
- * Formats address object into display string
- * @name formatAddressDisplay
- * @param {object} address - Address object with fields
- * @return {string} - Formatted address string
- */
-function formatAddressDisplay(address) {
-  if (!address) return '';
-
-  const parts = [];
-
-  if (address.addressLine1) parts.push(address.addressLine1);
-  if (address.addressLine2) parts.push(address.addressLine2);
-  if (address.landmark) parts.push(address.landmark);
-  if (address.city) parts.push(address.city);
-  if (address.state) parts.push(address.state);
-  if (address.pincode) parts.push(`- ${address.pincode}`);
-
-  return parts.join(', ');
-}
-
-/**
- * Populates form fields with address data
- * @name populateAddressFields
- * @param {object} form - Form element
- * @param {object} address - Address data object
- * @param {string} fieldPrefix - Prefix for field names (e.g., 'permanent', 'current')
- */
-function populateAddressFields(form, address, fieldPrefix = '') {
-  if (!form || !address) return;
-
-  const fieldMappings = {
-    addressLine1: `${fieldPrefix}_address_line_1`,
-    addressLine2: `${fieldPrefix}_address_line_2`,
-    landmark: `${fieldPrefix}_landmark`,
-    city: `${fieldPrefix}_city`,
-    state: `${fieldPrefix}_state`,
-    pincode: `${fieldPrefix}_pincode`,
-  };
-
-  Object.entries(fieldMappings).forEach(([key, fieldName]) => {
-    const input = form.querySelector(`input[name="${fieldName}"], select[name="${fieldName}"]`);
-    if (input && address[key]) {
-      input.value = address[key];
-      input.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-  });
-}
-
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName,
@@ -413,7 +318,4 @@ export {
   getEmailUsername,
   generateEmailOtp,
   validateEmailOtp,
-  fetchAadhaarAddress,
-  formatAddressDisplay,
-  populateAddressFields,
 };
