@@ -25,8 +25,32 @@ export default function decorateAadhaarAddressDetails(form) {
       
       const displayP = displayWrapper.querySelector('p');
       
-      // Check if address data was already stored from OTP validation
-      const storedAddress = form.dataset.aadhaarAddress;
+      // First, try to get address from the stored API response
+      let storedAddress = form.dataset.aadhaarAddress;
+      
+      // If not in dataset, check if customerDemographics is available
+      if (!storedAddress && form.dataset.customerDemographics) {
+        try {
+          const demographics = JSON.parse(form.dataset.customerDemographics);
+          const firstOffer = demographics[0];
+          if (firstOffer) {
+            const addressData = {
+              addressLine1: firstOffer.customerAddress1 || '',
+              addressLine2: firstOffer.customerAddress2 || '',
+              addressLine3: firstOffer.customerAddress3 || '',
+              city: firstOffer.customerCity || '',
+              state: firstOffer.customerState || '',
+              pincode: firstOffer.zipCode || '',
+              country: firstOffer.customerCountry || '',
+            };
+            storedAddress = JSON.stringify(addressData);
+            form.dataset.aadhaarAddress = storedAddress;
+            console.log('Extracted address from customerDemographics:', addressData);
+          }
+        } catch (error) {
+          console.error('Error extracting address from demographics:', error);
+        }
+      }
       
       if (storedAddress) {
         try {
@@ -134,13 +158,34 @@ export default function decorateAadhaarAddressDetails(form) {
     
     // Check for address data changes (when OTP is validated after panel is visible)
     const dataObserver = new MutationObserver(() => {
-      if (form.dataset.aadhaarAddress && !addressPanel.dataset.addressDisplayed) {
+      if ((form.dataset.aadhaarAddress || form.dataset.customerDemographics) && !addressPanel.dataset.addressDisplayed) {
         addressPanel.dataset.addressDisplayed = 'true';
         displayStoredAddress();
       }
     });
     
-    dataObserver.observe(form, { attributes: true, attributeFilter: ['data-aadhaar-address'] });
+    dataObserver.observe(form, { attributes: true, attributeFilter: ['data-aadhaar-address', 'data-customer-demographics'] });
+    
+    // Periodic retry to check for data (useful if timing issues occur)
+    let retryCount = 0;
+    const maxRetries = 10;
+    const retryInterval = setInterval(() => {
+      retryCount++;
+      
+      if (form.dataset.aadhaarAddress || form.dataset.customerDemographics) {
+        console.log('Found address data on retry', retryCount);
+        if (!addressPanel.dataset.addressDisplayed) {
+          addressPanel.dataset.addressDisplayed = 'true';
+          displayStoredAddress();
+        }
+        clearInterval(retryInterval);
+      }
+      
+      if (retryCount >= maxRetries) {
+        console.log('Max retries reached, stopping address data check');
+        clearInterval(retryInterval);
+      }
+    }, 1000); // Check every second
   }
 
   wire();
