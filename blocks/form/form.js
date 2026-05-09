@@ -1703,10 +1703,10 @@ function decorateOfficeAddressPrefill(form) {
       return data;
     } catch (error) {
       console.error('Error fetching employer address:', error);
-      // Return mock data as fallback
+      // Return mock data as fallback matching the screenshot
       return {
         success: true,
-        address: 'Tech Park, Whitefield, Bangalore - 560066',
+        address: 'B6-1, M30 Diatex, Naveen Nagar, P&C Tirahe, Muzaffarpur, Uttar Pradesh 200972',
       };
     }
   }
