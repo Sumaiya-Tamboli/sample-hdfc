@@ -771,6 +771,10 @@ function decorateLoanSliders(form) {
             
             updateEMI();
           }
+          
+          // Recalculate fill percentage after max change
+          const pct = ((rangeInput.value - rangeInput.min) / (rangeInput.max - rangeInput.min)) * 100;
+          rangeInput.style.setProperty('--range-pct', `${pct}%`);
         }
         
         // Update slider labels
