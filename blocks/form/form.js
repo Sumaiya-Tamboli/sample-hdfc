@@ -2030,12 +2030,13 @@ function decorateVerifyEmailIdSection(form) {
         attemptsLeft = MAX_ATTEMPTS;
         updateAttemptsDisplay();
 
-        // Clear and enable OTP input
+        // Auto-fill OTP input and enable submit button
         if (otpInput) {
-          otpInput.value = '';
+          otpInput.value = generatedOtp;
           otpInput.disabled = false;
+          otpInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
-        if (submitBtn) submitBtn.disabled = true;
+        if (submitBtn) submitBtn.disabled = false;
 
         // Start timer
         startEmailOtpTimer(otpPanel, attemptsLeft, updateAttemptsDisplay);
@@ -2149,12 +2150,13 @@ function decorateVerifyEmailIdSection(form) {
         generatedOtp = String(Math.floor(100000 + Math.random() * 900000));
         console.log(`Resent OTP for ${emailInput.value.trim()}: ${generatedOtp}`);
 
-        // Clear input and errors
+        // Auto-fill new OTP and enable submit button
         if (otpInput) {
-          otpInput.value = '';
+          otpInput.value = generatedOtp;
           otpInput.disabled = false;
+          otpInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
-        if (submitBtn) submitBtn.disabled = true;
+        if (submitBtn) submitBtn.disabled = false;
         clearPanelError(otpPanel);
 
         // Restart timer
