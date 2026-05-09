@@ -1665,6 +1665,111 @@ function decorateLoanApplicationNumber(form) {
   observer.observe(form, { childList: true, subtree: true });
 }
 
+function decorateSalaryBankSelection(form) {
+  // Bank data mapping with sample account details
+  const BANK_DATA = {
+    hdfc: {
+      bankName: 'HDFC Bank',
+      ifsc: 'HDFC0001234',
+      accountNumber: '50100123456789',
+    },
+    icici_bank: {
+      bankName: 'ICICI Bank',
+      ifsc: 'ICIC0001234',
+      accountNumber: '012345678901',
+    },
+    axis: {
+      bankName: 'Axis Bank',
+      ifsc: 'UTIB0001234',
+      accountNumber: '912345678901234',
+    },
+    kotak: {
+      bankName: 'Kotak Mahindra Bank',
+      ifsc: 'KKBK0001234',
+      accountNumber: '1234567890',
+    },
+    sbi: {
+      bankName: 'State Bank of India',
+      ifsc: 'SBIN0001234',
+      accountNumber: '12345678901234',
+    },
+    bank_of_baroda: {
+      bankName: 'Bank of Baroda',
+      ifsc: 'BARB0001234',
+      accountNumber: '12340012345678',
+    },
+    idfc_first_bank: {
+      bankName: 'IDFC First Bank',
+      ifsc: 'IDFB0001234',
+      accountNumber: '10012345678901',
+    },
+    'Union Bank': {
+      bankName: 'Union Bank of India',
+      ifsc: 'UBIN0001234',
+      accountNumber: '123456789012345',
+    },
+  };
+
+  function prefillSalaryAccountDetails(bankValue) {
+    const bankData = BANK_DATA[bankValue];
+    if (!bankData) return;
+
+    // Find the salary account details fields
+    const accountNumberInput = form.querySelector('.field-salary-ac-number input[name="salary_ac_number"]');
+    const ifscInput = form.querySelector('.field-ifsc input[name="ifsc"]');
+    const bankNameInput = form.querySelector('.field-bank-name input[name="bank_name"]');
+
+    // Prefill the fields
+    if (accountNumberInput) {
+      accountNumberInput.value = bankData.accountNumber;
+      accountNumberInput.dispatchEvent(new Event('input', { bubbles: true }));
+      accountNumberInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    if (ifscInput) {
+      ifscInput.value = bankData.ifsc;
+      ifscInput.dispatchEvent(new Event('input', { bubbles: true }));
+      ifscInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    if (bankNameInput) {
+      bankNameInput.value = bankData.bankName;
+      bankNameInput.dispatchEvent(new Event('input', { bubbles: true }));
+      bankNameInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  }
+
+  function attachBankListeners() {
+    // Handle radio button selections
+    const radioButtons = form.querySelectorAll('.field-salary-bank-quick-select input[type="radio"]');
+    radioButtons.forEach((radio) => {
+      if (!radio.dataset.bankSelectionWired) {
+        radio.dataset.bankSelectionWired = 'true';
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            prefillSalaryAccountDetails(radio.value);
+          }
+        });
+      }
+    });
+
+    // Handle dropdown selection
+    const dropdown = form.querySelector('.field-salary-bank-dropdown select[name="salary_bank_dropdown"]');
+    if (dropdown && !dropdown.dataset.bankSelectionWired) {
+      dropdown.dataset.bankSelectionWired = 'true';
+      dropdown.addEventListener('change', () => {
+        if (dropdown.value) {
+          prefillSalaryAccountDetails(dropdown.value);
+        }
+      });
+    }
+  }
+
+  attachBankListeners();
+  const observer = new MutationObserver(() => attachBankListeners());
+  observer.observe(form, { childList: true, subtree: true });
+}
+
 function decorateEmailVerification(form) {
   const COMMON_DOMAINS = ['@gmail.com', '@outlook.com', '@yahoo.com'];
 
@@ -2019,6 +2124,7 @@ export default async function decorate(block) {
     decorateRandomCustomerData(form);
     decoratePanValidation(form);
     decorateEmailVerification(form);
+    decorateSalaryBankSelection(form);
     decorateAadhaarAddressDetails(form);
 
     // Wrap "here" in consent labels so it can be styled blue
