@@ -5,6 +5,7 @@ import GoogleReCaptcha from './integrations/recaptcha.js';
 import componentDecorator from './mappings.js';
 import { handleSubmit } from './submit.js';
 import DocBasedFormToAF from './transform.js';
+import decorateAadhaarAddressDetails from './address-decorator.js';
 import {
   checkValidation,
   createButton,
@@ -1865,6 +1866,7 @@ export default async function decorate(block) {
     decorateRandomCustomerData(form);
     decoratePanValidation(form);
     decorateEmailVerification(form);
+    decorateAadhaarAddressDetails(form);
 
     // Wrap "here" in consent labels so it can be styled blue
     form.querySelectorAll('.field-consent-communication label, .field-consent-marketing label').forEach((label) => {
