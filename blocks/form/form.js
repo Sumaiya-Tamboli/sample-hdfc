@@ -698,7 +698,8 @@ function decorateLoanSliders(form) {
     }
 
     function updateFill() {
-      const pct = ((range.value - config.min) / (config.max - config.min)) * 100;
+      // Calculate percentage with proper rounding to ensure thumb aligns with fill
+      const pct = Math.round(((range.value - config.min) / (config.max - config.min)) * 10000) / 100;
       range.style.setProperty('--range-pct', `${pct}%`);
       display.value = config.format(range.value);
       numInput.value = range.value;
@@ -772,8 +773,8 @@ function decorateLoanSliders(form) {
             updateEMI();
           }
           
-          // Recalculate fill percentage after max change
-          const pct = ((rangeInput.value - rangeInput.min) / (rangeInput.max - rangeInput.min)) * 100;
+          // Recalculate fill percentage after max change with proper rounding
+          const pct = Math.round(((rangeInput.value - rangeInput.min) / (rangeInput.max - rangeInput.min)) * 10000) / 100;
           rangeInput.style.setProperty('--range-pct', `${pct}%`);
         }
         
