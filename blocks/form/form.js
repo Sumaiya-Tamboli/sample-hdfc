@@ -1903,9 +1903,8 @@ function decorateVerifyEmailIdSection(form) {
     errorEl.style.padding = '0.5rem';
     errorEl.style.backgroundColor = '#fee2e2';
     errorEl.style.borderRadius = '4px';
-    errorEl.style.whiteSpace = 'pre-wrap';
-    errorEl.style.wordBreak = 'keep-all';
-    errorEl.style.minWidth = 'max-content';
+    errorEl.style.whiteSpace = 'pre';
+    errorEl.style.display = 'inline-block';
     errorEl.textContent = message;
     const otpInput = panel.querySelector('.field-otp');
     if (otpInput) {
