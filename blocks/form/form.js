@@ -2115,25 +2115,48 @@ function decorateVerifyEmailIdSection(form) {
 
           console.log(`Email ${email} verified successfully!`);
         } else {
-          // OTP is incorrect
+          // OTP is incorrect - stop current timer and enable resend after 2 seconds
           attemptsLeft -= 1;
           updateAttemptsDisplay();
+
+          // Stop the current timer
+          if (otpPanel._emailOtpTimer) {
+            clearInterval(otpPanel._emailOtpTimer);
+            otpPanel._emailOtpTimer = null;
+          }
+
+          const timerField = otpPanel.querySelector('.field-resend-otp-timer');
+          const timerText = timerField?.querySelector('p');
+          const resendField = otpPanel.querySelector('.field-resend');
 
           if (attemptsLeft > 0) {
             showPanelError(otpPanel, `Invalid OTP. Please try again. ${attemptsLeft} attempt(s) remaining.`);
             otpInput.value = '';
             submitBtn.disabled = true;
+
+            // Start 2-second countdown before enabling Resend OTP
+            let timeLeft = 2;
+            if (timerField) timerField.style.display = '';
+            if (resendField) resendField.style.display = 'none';
+            if (timerText) timerText.textContent = `Resend OTP in: ${timeLeft}s`;
+
+            otpPanel._emailOtpTimer = setInterval(() => {
+              timeLeft -= 1;
+              if (timerText) timerText.textContent = `Resend OTP in: ${timeLeft}s`;
+
+              if (timeLeft <= 0) {
+                clearInterval(otpPanel._emailOtpTimer);
+                otpPanel._emailOtpTimer = null;
+                if (timerField) timerField.style.display = 'none';
+                if (resendField) resendField.style.display = '';
+              }
+            }, 1000);
           } else {
             showPanelError(otpPanel, 'Maximum attempts reached. Please try again after 24 hours.');
             otpInput.disabled = true;
             submitBtn.disabled = true;
-            if (resendBtn) resendBtn.style.display = 'none';
-            
-            // Stop timer
-            if (otpPanel._emailOtpTimer) {
-              clearInterval(otpPanel._emailOtpTimer);
-              otpPanel._emailOtpTimer = null;
-            }
+            if (resendField) resendField.style.display = 'none';
+            if (timerField) timerField.style.display = 'none';
           }
         }
       });
