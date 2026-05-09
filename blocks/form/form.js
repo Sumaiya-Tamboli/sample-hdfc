@@ -1903,7 +1903,7 @@ function decorateVerifyEmailIdSection(form) {
     errorEl.style.padding = '0.5rem';
     errorEl.style.backgroundColor = '#fee2e2';
     errorEl.style.borderRadius = '4px';
-    errorEl.style.whiteSpace = 'nowrap';
+    errorEl.style.whiteSpace = 'pre-line';
     errorEl.textContent = message;
     const otpInput = panel.querySelector('.field-otp');
     if (otpInput) {
@@ -2132,7 +2132,8 @@ function decorateVerifyEmailIdSection(form) {
           const resendField = otpPanel.querySelector('.field-resend');
 
           if (attemptsLeft > 0) {
-            showPanelError(otpPanel, `Invalid OTP. Please try again. ${attemptsLeft} attempt(s) remaining.`);
+            const errorMessage = `⚠ Invalid OTP. Please try again\n${attemptsLeft} attempts remaining (${attemptsLeft}/${MAX_ATTEMPTS})`;
+            showPanelError(otpPanel, errorMessage);
             otpInput.value = '';
             submitBtn.disabled = true;
 
