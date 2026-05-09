@@ -1885,6 +1885,332 @@ function decorateSalaryBankSelection(form) {
   observer.observe(form, { childList: true, subtree: true });
 }
 
+function decorateVerifyEmailIdSection(form) {
+  const MAX_ATTEMPTS = 3;
+
+  function validateEmailFormat(email) {
+    const emailPattern = /^([A-Za-z0-9][._]?)+[A-Za-z0-9]@[A-Za-z0-9]+(\.?[A-Za-z0-9]){2}\.([A-Za-z0-9]{2,4})?$/;
+    return emailPattern.test(email);
+  }
+
+  function showPanelError(panel, message) {
+    clearPanelError(panel);
+    const errorEl = document.createElement('div');
+    errorEl.className = 'email-otp-error';
+    errorEl.style.color = '#dc2626';
+    errorEl.style.fontSize = '0.875rem';
+    errorEl.style.marginTop = '0.5rem';
+    errorEl.style.padding = '0.5rem';
+    errorEl.style.backgroundColor = '#fee2e2';
+    errorEl.style.borderRadius = '4px';
+    errorEl.textContent = message;
+    const otpInput = panel.querySelector('.field-otp');
+    if (otpInput) {
+      otpInput.insertAdjacentElement('afterend', errorEl);
+    }
+  }
+
+  function clearPanelError(panel) {
+    const errorEl = panel.querySelector('.email-otp-error');
+    if (errorEl) errorEl.remove();
+  }
+
+  function showSuccessMessage(panel, email) {
+    clearPanelError(panel);
+    const successEl = document.createElement('div');
+    successEl.className = 'email-otp-success';
+    successEl.style.color = '#16a34a';
+    successEl.style.fontSize = '0.875rem';
+    successEl.style.marginTop = '0.5rem';
+    successEl.style.padding = '0.5rem';
+    successEl.style.backgroundColor = '#dcfce7';
+    successEl.style.borderRadius = '4px';
+    successEl.style.fontWeight = '600';
+    successEl.textContent = `✓ Email verified successfully! (${email})`;
+    
+    const submitBtn = panel.querySelector('.field-submit-otp');
+    if (submitBtn) {
+      submitBtn.insertAdjacentElement('afterend', successEl);
+    }
+
+    // Hide OTP input and buttons after success
+    const otpField = panel.querySelector('.field-otp');
+    const submitField = panel.querySelector('.field-submit-otp');
+    const resendField = panel.querySelector('.field-resend');
+    const attemptsField = panel.querySelector('.field-otp-attempts-info');
+    const timerField = panel.querySelector('.field-resend-otp-timer');
+
+    if (otpField) otpField.style.display = 'none';
+    if (submitField) submitField.style.display = 'none';
+    if (resendField) resendField.style.display = 'none';
+    if (attemptsField) attemptsField.style.display = 'none';
+    if (timerField) timerField.style.display = 'none';
+  }
+
+  function startEmailOtpTimer(panel, attemptsLeft, updateAttempts) {
+    if (panel._emailOtpTimer) clearInterval(panel._emailOtpTimer);
+
+    const timerField = panel.querySelector('.field-resend-otp-timer');
+    const timerText = timerField?.querySelector('p');
+    const resendField = panel.querySelector('.field-resend');
+    
+    let timeLeft = 45;
+
+    if (timerField) timerField.style.display = '';
+    if (resendField) resendField.style.display = 'none';
+    if (timerText) timerText.textContent = `Resend OTP in: ${timeLeft}s`;
+
+    panel._emailOtpTimer = setInterval(() => {
+      timeLeft -= 1;
+      if (timerText) timerText.textContent = `Resend OTP in: ${timeLeft}s`;
+
+      if (timeLeft <= 0) {
+        clearInterval(panel._emailOtpTimer);
+        panel._emailOtpTimer = null;
+        if (timerField) timerField.style.display = 'none';
+        if (resendField && attemptsLeft > 0) resendField.style.display = '';
+        updateAttempts();
+      }
+    }, 1000);
+  }
+
+  function setupEmailOtpPanel(emailPanel, emailInput, verifyButton) {
+    const otpPanel = emailPanel.querySelector('.field-enter-otp-panel[name="enter_otp_panel"]');
+    if (!otpPanel) return;
+
+    let attemptsLeft = MAX_ATTEMPTS;
+    let generatedOtp = null;
+    let emailVerified = false;
+
+    const otpInput = otpPanel.querySelector('.field-otp input');
+    const submitBtn = otpPanel.querySelector('.field-submit-otp button');
+    const resendBtn = otpPanel.querySelector('.field-resend button');
+    const attemptsInfo = otpPanel.querySelector('.field-otp-attempts-info p');
+
+    function updateAttemptsDisplay() {
+      if (!attemptsInfo) return;
+      if (attemptsLeft > 0) {
+        attemptsInfo.textContent = `${attemptsLeft}/${MAX_ATTEMPTS} attempts left`;
+        attemptsInfo.style.color = '';
+        attemptsInfo.style.fontWeight = '';
+      } else {
+        attemptsInfo.textContent = 'Try again after 24 hours';
+        attemptsInfo.style.color = '#dc2626';
+        attemptsInfo.style.fontWeight = '600';
+        if (resendBtn) resendBtn.style.display = 'none';
+      }
+    }
+
+    // Handle Verify button click
+    if (verifyButton && !verifyButton.dataset.emailOtpWired) {
+      verifyButton.dataset.emailOtpWired = 'true';
+      
+      verifyButton.addEventListener('click', async () => {
+        const email = emailInput.value.trim();
+
+        if (!email) {
+          showPanelError(otpPanel, 'Please enter your email address');
+          return;
+        }
+
+        if (!validateEmailFormat(email)) {
+          showPanelError(otpPanel, 'Please enter a valid email address');
+          return;
+        }
+
+        // Generate OTP
+        generatedOtp = String(Math.floor(100000 + Math.random() * 900000));
+        console.log(`Generated OTP for ${email}: ${generatedOtp}`);
+
+        // Show OTP panel
+        otpPanel.style.display = '';
+        otpPanel.dataset.visible = 'true';
+
+        // Reset attempts
+        attemptsLeft = MAX_ATTEMPTS;
+        updateAttemptsDisplay();
+
+        // Clear and enable OTP input
+        if (otpInput) {
+          otpInput.value = '';
+          otpInput.disabled = false;
+        }
+        if (submitBtn) submitBtn.disabled = true;
+
+        // Start timer
+        startEmailOtpTimer(otpPanel, attemptsLeft, updateAttemptsDisplay);
+
+        // Try API call in background
+        try {
+          await fetch('http://localhost:3000/api/generate-email-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+          });
+        } catch {
+          // API not available, use mock OTP
+        }
+
+        clearPanelError(otpPanel);
+      });
+    }
+
+    // Handle OTP input
+    if (otpInput && !otpInput.dataset.emailOtpWired) {
+      otpInput.dataset.emailOtpWired = 'true';
+      
+      otpInput.addEventListener('input', () => {
+        clearPanelError(otpPanel);
+        const value = otpInput.value.replace(/\D/g, '');
+        otpInput.value = value;
+        
+        if (submitBtn) {
+          submitBtn.disabled = value.length !== 6 || attemptsLeft === 0;
+        }
+      });
+    }
+
+    // Handle Submit OTP
+    if (submitBtn && !submitBtn.dataset.emailOtpWired) {
+      submitBtn.dataset.emailOtpWired = 'true';
+      
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (emailVerified) return;
+
+        const enteredOtp = otpInput?.value?.trim();
+
+        if (!enteredOtp || enteredOtp.length !== 6) {
+          showPanelError(otpPanel, 'Please enter a valid 6-digit OTP');
+          return;
+        }
+
+        // Validate OTP
+        if (enteredOtp === generatedOtp) {
+          // OTP is correct
+          emailVerified = true;
+          const email = emailInput.value.trim();
+          
+          // Stop timer
+          if (otpPanel._emailOtpTimer) {
+            clearInterval(otpPanel._emailOtpTimer);
+            otpPanel._emailOtpTimer = null;
+          }
+
+          // Show success message
+          showSuccessMessage(otpPanel, email);
+
+          // Mark email as verified
+          emailInput.readOnly = true;
+          emailInput.style.backgroundColor = '#f0fdf4';
+          if (verifyButton) {
+            verifyButton.textContent = 'Verified';
+            verifyButton.disabled = true;
+            verifyButton.style.backgroundColor = '#16a34a';
+            verifyButton.style.color = '#fff';
+          }
+
+          console.log(`Email ${email} verified successfully!`);
+        } else {
+          // OTP is incorrect
+          attemptsLeft -= 1;
+          updateAttemptsDisplay();
+
+          if (attemptsLeft > 0) {
+            showPanelError(otpPanel, `Invalid OTP. Please try again. ${attemptsLeft} attempt(s) remaining.`);
+            otpInput.value = '';
+            submitBtn.disabled = true;
+          } else {
+            showPanelError(otpPanel, 'Maximum attempts reached. Please try again after 24 hours.');
+            otpInput.disabled = true;
+            submitBtn.disabled = true;
+            if (resendBtn) resendBtn.style.display = 'none';
+            
+            // Stop timer
+            if (otpPanel._emailOtpTimer) {
+              clearInterval(otpPanel._emailOtpTimer);
+              otpPanel._emailOtpTimer = null;
+            }
+          }
+        }
+      });
+    }
+
+    // Handle Resend OTP
+    if (resendBtn && !resendBtn.dataset.emailOtpWired) {
+      resendBtn.dataset.emailOtpWired = 'true';
+      
+      resendBtn.addEventListener('click', async () => {
+        if (attemptsLeft === 0) return;
+
+        // Generate new OTP
+        generatedOtp = String(Math.floor(100000 + Math.random() * 900000));
+        console.log(`Resent OTP for ${emailInput.value.trim()}: ${generatedOtp}`);
+
+        // Clear input and errors
+        if (otpInput) {
+          otpInput.value = '';
+          otpInput.disabled = false;
+        }
+        if (submitBtn) submitBtn.disabled = true;
+        clearPanelError(otpPanel);
+
+        // Restart timer
+        startEmailOtpTimer(otpPanel, attemptsLeft, updateAttemptsDisplay);
+
+        // Try API call in background
+        try {
+          await fetch('http://localhost:3000/api/generate-email-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailInput.value.trim() }),
+          });
+        } catch {
+          // API not available, use mock OTP
+        }
+      });
+    }
+
+    // Initially hide OTP panel
+    otpPanel.style.display = 'none';
+    otpPanel.dataset.visible = 'false';
+  }
+
+  function setupEmailVerification() {
+    // Primary Email Panel
+    const primaryPanel = form.querySelector('.field-primary-email-panel');
+    if (primaryPanel && !primaryPanel.dataset.emailOtpSetup) {
+      primaryPanel.dataset.emailOtpSetup = 'true';
+      
+      const primaryEmailInput = primaryPanel.querySelector('.field-primary-email-id input[type="email"]');
+      const primaryVerifyBtn = primaryPanel.querySelector('.field-primary-email-verify-button button');
+      
+      if (primaryEmailInput && primaryVerifyBtn) {
+        setupEmailOtpPanel(primaryPanel, primaryEmailInput, primaryVerifyBtn);
+      }
+    }
+
+    // Work Email Panel
+    const workPanel = form.querySelector('.field-work-email-panel');
+    if (workPanel && !workPanel.dataset.emailOtpSetup) {
+      workPanel.dataset.emailOtpSetup = 'true';
+      
+      const workEmailInput = workPanel.querySelector('.field-work-email-id input[type="email"]');
+      const workVerifyBtn = workPanel.querySelector('.field-work-email-verify-button button');
+      
+      if (workEmailInput && workVerifyBtn) {
+        setupEmailOtpPanel(workPanel, workEmailInput, workVerifyBtn);
+      }
+    }
+  }
+
+  setupEmailVerification();
+  const observer = new MutationObserver(() => setupEmailVerification());
+  observer.observe(form, { childList: true, subtree: true });
+}
+
 function decorateEmailVerification(form) {
   const COMMON_DOMAINS = ['@gmail.com', '@outlook.com', '@yahoo.com'];
 
@@ -2241,6 +2567,7 @@ export default async function decorate(block) {
     decorateEmailVerification(form);
     decorateSalaryBankSelection(form);
     decorateOfficeAddressPrefill(form);
+    decorateVerifyEmailIdSection(form);
     decorateAadhaarAddressDetails(form);
 
     // Wrap "here" in consent labels so it can be styled blue
