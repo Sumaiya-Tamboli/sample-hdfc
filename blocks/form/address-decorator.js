@@ -1,5 +1,16 @@
 import { formatAddressDisplay, populateAddressFields, clearAddressFields } from './functions.js';
 
+// Mock address data from API response (matching the PDF structure)
+const MOCK_ADDRESS_DATA = {
+  addressLine1: 'B/H Fame Theatre 21, Shri Ram Bungalow',
+  addressLine2: 'Kalpataru Nagar, Ashoka Colony',
+  addressLine3: 'Kharar (West)',
+  city: 'Mumbai',
+  state: 'Maharashtra',
+  pincode: '422022',
+  country: 'India',
+};
+
 export default function decorateAadhaarAddressDetails(form) {
   console.log('Address decorator initialized');
   
@@ -19,73 +30,31 @@ export default function decorateAadhaarAddressDetails(form) {
 
     addressPanel.dataset.addressWired = 'true';
 
-    // Function to display address from stored API response
-    function displayStoredAddress() {
-      console.log('Displaying stored address...');
+    // Function to display address
+    function displayAddress() {
+      console.log('Displaying address...');
       
       const displayP = displayWrapper.querySelector('p');
       
-      // First, try to get address from the stored API response
-      let storedAddress = form.dataset.aadhaarAddress;
+      // Use mock address data
+      const addressData = MOCK_ADDRESS_DATA;
       
-      // If not in dataset, check if customerDemographics is available
-      if (!storedAddress && form.dataset.customerDemographics) {
-        try {
-          const demographics = JSON.parse(form.dataset.customerDemographics);
-          const firstOffer = demographics[0];
-          if (firstOffer) {
-            const addressData = {
-              addressLine1: firstOffer.customerAddress1 || '',
-              addressLine2: firstOffer.customerAddress2 || '',
-              addressLine3: firstOffer.customerAddress3 || '',
-              city: firstOffer.customerCity || '',
-              state: firstOffer.customerState || '',
-              pincode: firstOffer.zipCode || '',
-              country: firstOffer.customerCountry || '',
-            };
-            storedAddress = JSON.stringify(addressData);
-            form.dataset.aadhaarAddress = storedAddress;
-            console.log('Extracted address from customerDemographics:', addressData);
-          }
-        } catch (error) {
-          console.error('Error extracting address from demographics:', error);
-        }
+      // Format and display the address
+      const formattedAddress = formatAddressDisplay(addressData);
+      console.log('Formatted address:', formattedAddress);
+      
+      if (displayP) {
+        displayP.innerHTML = `<p>Address as per Aadhaar records<br>${formattedAddress}</p>`;
       }
-      
-      if (storedAddress) {
-        try {
-          const addressData = JSON.parse(storedAddress);
-          console.log('Found stored address data:', addressData);
-          
-          // Format and display the address
-          const formattedAddress = formatAddressDisplay(addressData);
-          console.log('Formatted address:', formattedAddress);
-          
-          if (displayP) {
-            displayP.innerHTML = `<p>Address as per Aadhaar records<br>${formattedAddress}</p>`;
-          }
 
-          // Store address data on the panel for radio button handling
-          addressPanel.dataset.addressData = storedAddress;
-          
-          // Pre-select "Both" radio button as default
-          const bothRadio = radioGroup.querySelector('input[value="both"]');
-          if (bothRadio && !radioGroup.querySelector('input:checked')) {
-            bothRadio.checked = true;
-            bothRadio.dispatchEvent(new Event('change', { bubbles: true }));
-          }
-          
-        } catch (error) {
-          console.error('Error parsing stored address:', error);
-          if (displayP) {
-            displayP.innerHTML = '<p>Address as per Aadhaar records<br>Unable to load address. Please enter manually.</p>';
-          }
-        }
-      } else {
-        console.warn('No stored address data found');
-        if (displayP) {
-          displayP.innerHTML = '<p>Address as per Aadhaar records<br>Address will be available after OTP verification.</p>';
-        }
+      // Store address data on the panel for radio button handling
+      addressPanel.dataset.addressData = JSON.stringify(addressData);
+      
+      // Pre-select "Both" radio button as default
+      const bothRadio = radioGroup.querySelector('input[value="both"]');
+      if (bothRadio && !radioGroup.querySelector('input:checked')) {
+        bothRadio.checked = true;
+        bothRadio.dispatchEvent(new Event('change', { bubbles: true }));
       }
     }
 
@@ -139,7 +108,7 @@ export default function decorateAadhaarAddressDetails(form) {
           console.log('Panel visibility changed to:', addressPanel.dataset.visible);
           if (addressPanel.dataset.visible === 'true' && !addressPanel.dataset.addressDisplayed) {
             addressPanel.dataset.addressDisplayed = 'true';
-            displayStoredAddress();
+            displayAddress();
           }
         }
       });
@@ -152,40 +121,9 @@ export default function decorateAadhaarAddressDetails(form) {
       console.log('Panel already visible, displaying address immediately');
       if (!addressPanel.dataset.addressDisplayed) {
         addressPanel.dataset.addressDisplayed = 'true';
-        displayStoredAddress();
+        displayAddress();
       }
     }
-    
-    // Check for address data changes (when OTP is validated after panel is visible)
-    const dataObserver = new MutationObserver(() => {
-      if ((form.dataset.aadhaarAddress || form.dataset.customerDemographics) && !addressPanel.dataset.addressDisplayed) {
-        addressPanel.dataset.addressDisplayed = 'true';
-        displayStoredAddress();
-      }
-    });
-    
-    dataObserver.observe(form, { attributes: true, attributeFilter: ['data-aadhaar-address', 'data-customer-demographics'] });
-    
-    // Periodic retry to check for data (useful if timing issues occur)
-    let retryCount = 0;
-    const maxRetries = 10;
-    const retryInterval = setInterval(() => {
-      retryCount++;
-      
-      if (form.dataset.aadhaarAddress || form.dataset.customerDemographics) {
-        console.log('Found address data on retry', retryCount);
-        if (!addressPanel.dataset.addressDisplayed) {
-          addressPanel.dataset.addressDisplayed = 'true';
-          displayStoredAddress();
-        }
-        clearInterval(retryInterval);
-      }
-      
-      if (retryCount >= maxRetries) {
-        console.log('Max retries reached, stopping address data check');
-        clearInterval(retryInterval);
-      }
-    }, 1000); // Check every second
   }
 
   wire();
