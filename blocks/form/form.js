@@ -542,7 +542,12 @@ function decorateLoanSliders(form) {
     },
   };
 
-  const state = { amount: 1500000, tenure: 84 };
+  const state = { amount: 1500000, tenure: 84, maxLoanAmount: 1500000 };
+  
+  // Income-based loan calculation multiplier (20x monthly income)
+  const INCOME_MULTIPLIER = 20;
+  const ABSOLUTE_MAX_LOAN = 1500000; // Bank's maximum limit
+  const ABSOLUTE_MIN_LOAN = 50000;
 
   const RATE_TIERS = [
     { upTo: 200000, rate: 14.50 },
@@ -721,8 +726,143 @@ function decorateLoanSliders(form) {
     });
   }
 
+  // Function to update loan offer based on income
+  function updateLoanOfferBasedOnIncome(monthlyIncome) {
+    const income = Number(monthlyIncome) || 0;
+    
+    if (income <= 0) {
+      // Reset to default maximum
+      state.maxLoanAmount = ABSOLUTE_MAX_LOAN;
+      updateLoanOfferDisplay(ABSOLUTE_MAX_LOAN);
+      return;
+    }
+    
+    // Calculate maximum loan based on income (20x multiplier)
+    let calculatedMax = Math.floor(income * INCOME_MULTIPLIER);
+    
+    // Apply constraints
+    calculatedMax = Math.max(ABSOLUTE_MIN_LOAN, calculatedMax);
+    calculatedMax = Math.min(ABSOLUTE_MAX_LOAN, calculatedMax);
+    
+    // Round to nearest 10000
+    calculatedMax = Math.round(calculatedMax / 10000) * 10000;
+    
+    state.maxLoanAmount = calculatedMax;
+    
+    // Update loan amount slider max value
+    const loanAmountWrapper = form.querySelector('.field-loan-amount-inr');
+    if (loanAmountWrapper) {
+      const rangeSlider = loanAmountWrapper.nextElementSibling;
+      if (rangeSlider && rangeSlider.classList.contains('loan-range-slider')) {
+        const rangeInput = rangeSlider.querySelector('input[type="range"]');
+        if (rangeInput) {
+          rangeInput.max = calculatedMax;
+          
+          // If current value exceeds new max, adjust it
+          if (Number(rangeInput.value) > calculatedMax) {
+            rangeInput.value = calculatedMax;
+            state.amount = calculatedMax;
+            
+            // Update display
+            const display = loanAmountWrapper.querySelector('.loan-amount-display');
+            if (display) {
+              display.value = sliderConfigs['field-loan-amount-inr'].format(calculatedMax);
+            }
+            
+            updateEMI();
+          }
+        }
+        
+        // Update slider labels
+        const labelsDiv = rangeSlider.querySelector('.loan-range-labels');
+        if (labelsDiv) {
+          const newLabels = generateSliderLabels(ABSOLUTE_MIN_LOAN, calculatedMax);
+          labelsDiv.innerHTML = '';
+          newLabels.forEach((label) => {
+            const span = document.createElement('span');
+            span.textContent = label;
+            labelsDiv.append(span);
+          });
+        }
+      }
+    }
+    
+    // Update the loan offer banner
+    updateLoanOfferDisplay(calculatedMax);
+  }
+  
+  function generateSliderLabels(min, max) {
+    const labels = [];
+    const step = (max - min) / 6;
+    
+    for (let i = 0; i <= 6; i++) {
+      const value = min + (step * i);
+      if (value >= 100000) {
+        labels.push(`${Math.round(value / 100000)}L`);
+      } else {
+        labels.push(`${Math.round(value / 1000)}K`);
+      }
+    }
+    
+    return labels;
+  }
+  
+  function updateLoanOfferDisplay(maxAmount) {
+    const formattedAmount = `₹${Math.round(maxAmount / 100000)},${String(maxAmount % 100000).padStart(2, '0').substring(0, 2)},000`;
+    
+    // Update banner text
+    const bannerText = form.querySelector('.field-loan-offer-banner-text p');
+    if (bannerText) {
+      bannerText.textContent = `You can get a loan up to ${formattedAmount}!`;
+    }
+    
+    // Update approved loan amount in summary
+    const approvedAmount = form.querySelector('.field-approved-loan-amount p');
+    if (approvedAmount) {
+      approvedAmount.textContent = formattedAmount;
+    }
+    
+    // Update slider note
+    const sliderNote = form.querySelector('.field-loan-amount-slider-note p');
+    if (sliderNote) {
+      const minFormatted = '50K';
+      const maxFormatted = maxAmount >= 100000 
+        ? `${Math.round(maxAmount / 100000)}L`
+        : `${Math.round(maxAmount / 1000)}K`;
+      sliderNote.textContent = `Range: ${minFormatted} to ${maxFormatted}`;
+    }
+  }
+  
+  // Watch for income input changes
+  function wireIncomeInput() {
+    const incomeInput = form.querySelector('.field-monthly-net-income-salary input');
+    if (!incomeInput || incomeInput.dataset.loanOfferWired) return;
+    
+    incomeInput.dataset.loanOfferWired = 'true';
+    
+    incomeInput.addEventListener('input', () => {
+      const income = incomeInput.value.trim();
+      updateLoanOfferBasedOnIncome(income);
+    });
+    
+    incomeInput.addEventListener('change', () => {
+      const income = incomeInput.value.trim();
+      updateLoanOfferBasedOnIncome(income);
+    });
+    
+    // If there's already a value, calculate immediately
+    if (incomeInput.value) {
+      updateLoanOfferBasedOnIncome(incomeInput.value);
+    }
+  }
+  
   apply();
-  const observer = new MutationObserver(() => apply());
+  wireIncomeInput();
+  
+  const observer = new MutationObserver(() => {
+    apply();
+    wireIncomeInput();
+  });
   observer.observe(form, { childList: true, subtree: true });
 }
 
