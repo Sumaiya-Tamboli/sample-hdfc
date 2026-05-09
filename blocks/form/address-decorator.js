@@ -1,4 +1,4 @@
-import { fetchAadhaarAddress, formatAddressDisplay, populateAddressFields } from './functions.js';
+import { formatAddressDisplay, populateAddressFields, clearAddressFields } from './functions.js';
 
 export default function decorateAadhaarAddressDetails(form) {
   console.log('Address decorator initialized');
@@ -19,69 +19,48 @@ export default function decorateAadhaarAddressDetails(form) {
 
     addressPanel.dataset.addressWired = 'true';
 
-    // Function to fetch and display address
-    async function fetchAndDisplayAddress() {
-      console.log('Fetching address...');
+    // Function to display address from stored API response
+    function displayStoredAddress() {
+      console.log('Displaying stored address...');
       
-      // Get Aadhaar number from form
-      const aadhaarInput = form.querySelector('.field-aadhaar-number input, input[name="aadhaar_number"]');
-      const mobileInput = form.querySelector('.field-mobile-number input, input[name="mobile_number"]');
-
-      console.log('Aadhaar input:', aadhaarInput?.value);
-      console.log('Mobile input:', mobileInput?.value);
-
-      if (!aadhaarInput?.value || !mobileInput?.value) {
-        console.warn('Aadhaar or mobile number not available');
-        return;
-      }
-
-      // Show loading state
       const displayP = displayWrapper.querySelector('p');
-      if (displayP) {
-        displayP.innerHTML = '<p>Loading address...<br></p>';
-      }
-
-      try {
-        // Fetch address from API
-        const response = await fetchAadhaarAddress(
-          aadhaarInput.value,
-          mobileInput.value
-        );
-
-        console.log('API Response:', response);
-
-        if (response.success && response.address) {
-          // Display the address
-          const formattedAddress = formatAddressDisplay(response.address);
+      
+      // Check if address data was already stored from OTP validation
+      const storedAddress = form.dataset.aadhaarAddress;
+      
+      if (storedAddress) {
+        try {
+          const addressData = JSON.parse(storedAddress);
+          console.log('Found stored address data:', addressData);
+          
+          // Format and display the address
+          const formattedAddress = formatAddressDisplay(addressData);
           console.log('Formatted address:', formattedAddress);
           
           if (displayP) {
             displayP.innerHTML = `<p>Address as per Aadhaar records<br>${formattedAddress}</p>`;
           }
 
-          // Store address data for later use
-          addressPanel.dataset.addressData = JSON.stringify(response.address);
-
-          // Pre-select radio button if addressType is provided
-          if (response.address.addressType) {
-            const radioToSelect = radioGroup.querySelector(
-              `input[value="${response.address.addressType}"]`
-            );
-            if (radioToSelect && !radioToSelect.checked) {
-              radioToSelect.checked = true;
-              radioToSelect.dispatchEvent(new Event('change', { bubbles: true }));
-            }
+          // Store address data on the panel for radio button handling
+          addressPanel.dataset.addressData = storedAddress;
+          
+          // Pre-select "Both" radio button as default
+          const bothRadio = radioGroup.querySelector('input[value="both"]');
+          if (bothRadio && !radioGroup.querySelector('input:checked')) {
+            bothRadio.checked = true;
+            bothRadio.dispatchEvent(new Event('change', { bubbles: true }));
           }
-        } else {
-          console.error('API returned unsuccessful response');
+          
+        } catch (error) {
+          console.error('Error parsing stored address:', error);
           if (displayP) {
-            displayP.innerHTML = '<p>Address as per Aadhaar records<br>Unable to fetch address. Please enter manually.</p>';
+            displayP.innerHTML = '<p>Address as per Aadhaar records<br>Unable to load address. Please enter manually.</p>';
           }
         }
-      } catch (error) {
-        console.error('Error fetching address:', error);
+      } else {
+        console.warn('No stored address data found');
         if (displayP) {
-          displayP.innerHTML = '<p>Address as per Aadhaar records<br>Error loading address. Please enter manually.</p>';
+          displayP.innerHTML = '<p>Address as per Aadhaar records<br>Address will be available after OTP verification.</p>';
         }
       }
     }
@@ -116,6 +95,9 @@ export default function decorateAadhaarAddressDetails(form) {
               break;
             case 'none':
               console.log('User selected none - manual entry required');
+              // Clear fields when 'none' is selected
+              clearAddressFields(form, 'permanent');
+              clearAddressFields(form, 'current');
               break;
             default:
               break;
@@ -126,14 +108,14 @@ export default function decorateAadhaarAddressDetails(form) {
       });
     });
 
-    // Auto-fetch address when panel becomes visible
+    // Auto-display address when panel becomes visible
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'data-visible') {
           console.log('Panel visibility changed to:', addressPanel.dataset.visible);
-          if (addressPanel.dataset.visible === 'true' && !addressPanel.dataset.addressFetched) {
-            addressPanel.dataset.addressFetched = 'true';
-            fetchAndDisplayAddress();
+          if (addressPanel.dataset.visible === 'true' && !addressPanel.dataset.addressDisplayed) {
+            addressPanel.dataset.addressDisplayed = 'true';
+            displayStoredAddress();
           }
         }
       });
@@ -141,14 +123,24 @@ export default function decorateAadhaarAddressDetails(form) {
 
     observer.observe(addressPanel, { attributes: true });
 
-    // Also fetch if already visible
+    // Also display if already visible
     if (addressPanel.dataset.visible !== 'false' && getComputedStyle(addressPanel).display !== 'none') {
-      console.log('Panel already visible, fetching address immediately');
-      if (!addressPanel.dataset.addressFetched) {
-        addressPanel.dataset.addressFetched = 'true';
-        fetchAndDisplayAddress();
+      console.log('Panel already visible, displaying address immediately');
+      if (!addressPanel.dataset.addressDisplayed) {
+        addressPanel.dataset.addressDisplayed = 'true';
+        displayStoredAddress();
       }
     }
+    
+    // Check for address data changes (when OTP is validated after panel is visible)
+    const dataObserver = new MutationObserver(() => {
+      if (form.dataset.aadhaarAddress && !addressPanel.dataset.addressDisplayed) {
+        addressPanel.dataset.addressDisplayed = 'true';
+        displayStoredAddress();
+      }
+    });
+    
+    dataObserver.observe(form, { attributes: true, attributeFilter: ['data-aadhaar-address'] });
   }
 
   wire();

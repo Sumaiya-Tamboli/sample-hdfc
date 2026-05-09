@@ -85,7 +85,7 @@ async function generateOtp(mobile, dob, globals) {
 
 /**
  * Validates the OTP entered by the user.
- * On success → navigates to the next wizard panel.
+ * On success → navigates to the next wizard panel and stores customer data including address.
  * On failure → marks the OTP field invalid with an error message.
  *
  * Wire this to your "Verify OTP" button click rule:
@@ -113,6 +113,30 @@ async function validateOtp(mobile, otp, nextPanelRef, globals) {
     const data = await res.json();
 
     if (data?.status?.responseCode === '0') {
+      // Store customer demographics data including address for later use
+      if (data?.responseString?.OfferDemogDetails) {
+        const form = globals.form.getElement();
+        if (form) {
+          // Store the complete customer data on the form element
+          form.dataset.customerDemographics = JSON.stringify(data.responseString.OfferDemogDetails);
+          
+          // Extract and store address data specifically
+          const firstOffer = data.responseString.OfferDemogDetails[0];
+          if (firstOffer) {
+            const addressData = {
+              addressLine1: firstOffer.customerAddress1 || '',
+              addressLine2: firstOffer.customerAddress2 || '',
+              addressLine3: firstOffer.customerAddress3 || '',
+              city: firstOffer.customerCity || '',
+              state: firstOffer.customerState || '',
+              pincode: firstOffer.zipCode || '',
+              country: firstOffer.customerCountry || '',
+            };
+            form.dataset.aadhaarAddress = JSON.stringify(addressData);
+          }
+        }
+      }
+      
       globals.functions.navigateTo(nextPanelRef);
     } else {
       const msg = data?.status?.errorDesc || 'Incorrect OTP. Please try again.';
@@ -382,7 +406,7 @@ function populateAddressFields(form, address, fieldPrefix = '') {
   const fieldMappings = {
     addressLine1: `${fieldPrefix}_address_line_1`,
     addressLine2: `${fieldPrefix}_address_line_2`,
-    landmark: `${fieldPrefix}_landmark`,
+    addressLine3: `${fieldPrefix}_address_line_3`,
     city: `${fieldPrefix}_city`,
     state: `${fieldPrefix}_state`,
     pincode: `${fieldPrefix}_pincode`,
@@ -392,6 +416,33 @@ function populateAddressFields(form, address, fieldPrefix = '') {
     const input = form.querySelector(`input[name="${fieldName}"], select[name="${fieldName}"]`);
     if (input && address[key]) {
       input.value = address[key];
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
+}
+
+/**
+ * Clears address form fields
+ * @name clearAddressFields
+ * @param {object} form - Form element
+ * @param {string} fieldPrefix - Prefix for field names (e.g., 'permanent', 'current')
+ */
+function clearAddressFields(form, fieldPrefix = '') {
+  if (!form) return;
+
+  const fieldNames = [
+    `${fieldPrefix}_address_line_1`,
+    `${fieldPrefix}_address_line_2`,
+    `${fieldPrefix}_address_line_3`,
+    `${fieldPrefix}_city`,
+    `${fieldPrefix}_state`,
+    `${fieldPrefix}_pincode`,
+  ];
+
+  fieldNames.forEach((fieldName) => {
+    const input = form.querySelector(`input[name="${fieldName}"], select[name="${fieldName}"]`);
+    if (input) {
+      input.value = '';
       input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   });
@@ -416,4 +467,5 @@ export {
   fetchAadhaarAddress,
   formatAddressDisplay,
   populateAddressFields,
+  clearAddressFields,
 };
