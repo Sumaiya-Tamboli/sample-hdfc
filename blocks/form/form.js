@@ -636,6 +636,12 @@ function decorateLoanSliders(form) {
           input.value = `${annualRate.toFixed(2)}% p.a.`;
         } else if (labelText.includes('processing fee')) {
           input.value = `₹${processingFee.toLocaleString('en-IN')}`;
+        } else if (labelText.includes('employer name')) {
+          // Sync employer name from input field to Loan Details panel
+          const employerInput = form.querySelector('.field-employer-company-name-other input[name="employer_company_name_other"]');
+          if (employerInput && employerInput.value) {
+            input.value = employerInput.value;
+          }
         }
       });
     });
@@ -852,12 +858,41 @@ function decorateLoanSliders(form) {
     }
   }
   
+  // Function to sync employer name from input to Loan Details
+  function wireEmployerNameSync() {
+    const employerInput = form.querySelector('.field-employer-company-name-other input[name="employer_company_name_other"]');
+    if (!employerInput || employerInput.dataset.employerSyncWired) return;
+    
+    employerInput.dataset.employerSyncWired = 'true';
+    
+    const syncEmployerName = () => {
+      const loanDetailsPanel = form.querySelector('.field-loan-details');
+      if (!loanDetailsPanel) return;
+      
+      const employerNameWrapper = loanDetailsPanel.querySelector('.field-employer-name');
+      if (!employerNameWrapper) return;
+      
+      const employerNameInput = employerNameWrapper.querySelector('input');
+      if (!employerNameInput) return;
+      
+      employerNameInput.value = employerInput.value || '';
+    };
+    
+    employerInput.addEventListener('input', syncEmployerName);
+    employerInput.addEventListener('change', syncEmployerName);
+    
+    // Sync immediately if there's already a value
+    syncEmployerName();
+  }
+  
   apply();
   wireIncomeInput();
+  wireEmployerNameSync();
   
   const observer = new MutationObserver(() => {
     apply();
     wireIncomeInput();
+    wireEmployerNameSync();
   });
   observer.observe(form, { childList: true, subtree: true });
 }
