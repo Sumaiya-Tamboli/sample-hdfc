@@ -1608,7 +1608,7 @@ function decorateRandomCustomerData(form) {
 
   const LABEL_MAP = [
     { match: 'full name', value: customer.fullName },
-    { match: 'pan', value: customer.panNumber },
+    // PAN number excluded from pre-fill - user must enter manually
     { match: 'current address', value: customer.currentAddress },
     { match: 'residence type', value: customer.residenceType },
     { match: 'employer name', value: customer.employerName },
