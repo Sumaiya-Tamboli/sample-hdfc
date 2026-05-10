@@ -2438,6 +2438,48 @@ function decorateEmailVerification(form) {
   observer.observe(form, { childList: true, subtree: true });
 }
 
+function decoratePanNumberSync(form) {
+  function syncPanFields() {
+    const panNumberWrapper = form.querySelector('.field-pan-number');
+    const panWrapper = form.querySelector('.field-pan');
+    
+    if (!panNumberWrapper || !panWrapper) return;
+    
+    const panNumberInput = panNumberWrapper.querySelector('input[name="pan_number"]');
+    const panInput = panWrapper.querySelector('input[name="pan"]');
+    
+    if (!panNumberInput || !panInput) return;
+    
+    // Skip if already wired
+    if (panNumberInput.dataset.panSyncWired) return;
+    panNumberInput.dataset.panSyncWired = 'true';
+    
+    // Function to copy PAN Number to PAN field
+    const syncPanValue = () => {
+      const panNumberValue = panNumberInput.value.trim().toUpperCase();
+      panInput.value = panNumberValue;
+      panInput.dispatchEvent(new Event('input', { bubbles: true }));
+      panInput.dispatchEvent(new Event('change', { bubbles: true }));
+    };
+    
+    // Sync on input events
+    panNumberInput.addEventListener('input', syncPanValue);
+    panNumberInput.addEventListener('change', syncPanValue);
+    panNumberInput.addEventListener('blur', syncPanValue);
+    
+    // Initial sync if PAN Number already has a value
+    if (panNumberInput.value && panNumberInput.value.trim()) {
+      syncPanValue();
+    }
+  }
+  
+  syncPanFields();
+  
+  // Watch for dynamic field additions
+  const observer = new MutationObserver(() => syncPanFields());
+  observer.observe(form, { childList: true, subtree: true });
+}
+
 function decoratePanValidation(form) {
   function validatePanFormat(pan) {
     if (!pan || typeof pan !== 'string') return false;
@@ -2630,6 +2672,7 @@ export default async function decorate(block) {
     decorateIncomeVerification(form);
     decorateLoanApplicationNumber(form);
     decorateRandomCustomerData(form);
+    decoratePanNumberSync(form);
     decoratePanValidation(form);
     decorateEmailVerification(form);
     decorateSalaryBankSelection(form);
