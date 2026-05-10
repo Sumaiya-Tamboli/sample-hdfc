@@ -1611,7 +1611,7 @@ function decorateRandomCustomerData(form) {
     // PAN number excluded from pre-fill - user must enter manually
     { match: 'current address', value: customer.currentAddress },
     { match: 'residence type', value: customer.residenceType },
-    { match: 'employer name', value: customer.employerName },
+    // Employer/Company name excluded from pre-fill - user must enter manually
     { match: 'type of loan', value: customer.typeOfLoan },
   ];
 
